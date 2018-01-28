@@ -27,19 +27,26 @@ for (let posY = 0; posY < mapArr.length; posY++) {
 
 drawMap();
 
-
-
 document.body.addEventListener('keydown', move);
 
 function move(e) {
 	let nextPos = getNextPos(playerPos, e.keyCode);
 	if(!nextPos) return;
 
-	mapArr[playerPos.y][playerPos.x] = emptyChar;
-	mapArr[nextPos.y][nextPos.x] = playerChar;
+	const char = mapArr[nextPos.y][nextPos.x];
+	if(char === wallChar) return false;
+	if(char === itemChar || char === activeChar) {
+		const nextBlockPos = getNextPos(nextPos, e.keyCode);
+		const char2 = mapArr[nextBlockPos.y][nextBlockPos.x];
+		if(char2 === wallChar || char2 === itemChar || char2 === activeChar)
+			return false;
+		moveItem(char, nextBlockPos, nextPos);
+	}
 	
-	drawMap();
+	moveItem(playerChar, nextPos, playerPos);
 	playerPos = {...nextPos};
+
+	drawMap();
 }
 
 function getNextPos(pos, directonKey) {
@@ -61,6 +68,21 @@ function getNextPos(pos, directonKey) {
 			return false;
 	}
 	return nextPos;
+}
+
+function moveItem(char, nextPos, oldPos) {
+	let nextChar = char;
+	let oldChar = emptyChar;
+	const originalOldChar = originalMapAr[oldPos.y][oldPos.x];
+	let next = mapArr[nextPos.y][nextPos.x];
+
+	mapArr[nextPos.y][nextPos.x] = nextChar;
+
+	if(originalOldChar === targetChar) {
+		mapArr[oldPos.y][oldPos.x] = targetChar;
+	} else {
+		mapArr[oldPos.y][oldPos.x] = emptyChar;
+	}
 }
 
 function drawMap() {
