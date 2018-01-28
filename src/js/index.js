@@ -1,62 +1,69 @@
-const canvas = document.getElementById('js-socoban-canvas');
+import level1 from './levels.js';
 
-const player = '@';
-const map =
-`    XXXXX             
-    X   X             
-    X*  X             
-  XXX  *XXX           
-  X  *  * X           
-XXX X XXX X     XXXXXX
-X   X XXX XXXXXXX  ..X
-X *  *             ..X
-XXXXX XXXX X@XXXX  ..X
-    X      XXX  XXXXXX
-    XXXXXXXX          `;
+const canvas = document.getElementById('js-sokoban-canvas');
+let map = level1;
+let playerPos = { x: null, y: null };
+
+const emptyChar = ' ';
+const playerChar = '@';
+const itemChar = '*';
+const activeChar = '&';
+const wallChar = 'X';
+const targetChar = '.';
+
+
+let originalMapAr = map.split('\n').map(row => (row.split('')));
+let mapArr = map.split('\n').map(row => (row.split('')));
+
+// init playerPos
+for (let posY = 0; posY < mapArr.length; posY++) {
+	const posX = mapArr[posY].indexOf(playerChar);
+	if (posX !== -1) {
+		playerPos.x = posX;
+		playerPos.y = posY;
+		break;
+	}
+}
 
 drawMap();
+
 
 
 document.body.addEventListener('keydown', move);
 
 function move(e) {
-	switch(e.keyCode) {
+	let nextPos = getNextPos(playerPos, e.keyCode);
+	if(!nextPos) return;
+
+	mapArr[playerPos.y][playerPos.x] = emptyChar;
+	mapArr[nextPos.y][nextPos.x] = playerChar;
+	
+	drawMap();
+	playerPos = {...nextPos};
+}
+
+function getNextPos(pos, directonKey) {
+	let nextPos = {...pos};
+	switch(directonKey) {
+		case 37: // Left
+			nextPos.x--;
+			break;
 		case 38: // Up
-			moveUp();
+			nextPos.y--;
+			break;
+		case 39: // Right
+			nextPos.x++;
+			break;
+		case 40: // Down
+			nextPos.y++;
+			break;
+		default:
+			return false;
 	}
-}
-
-
-function moveUp(position) {
-	getPlayerPosition();
-}
-
-function getPlayerPosition() {
-	let map = canvas.innerHTML;
-
-	let pos = map.indexOf(player);
-	pos = {
-		x: 0,
-		y: 0
-	}
-
-	return pos;
+	return nextPos;
 }
 
 function drawMap() {
-	let mapArr = map.split('\n');
-
-	let strLength = 0;
-	mapArr.map(item => {
-		if(item.length > strLength)
-			strLength = item.length;
-	});
-
-	mapArr = mapArr.map(item => {
-		item = item + new Array(strLength).join(' ');
-		item = item.slice(0, strLength);
-		return item;
-	});
-
-	canvas.innerHTML = mapArr.join('\n');
+	const renderedMap = mapArr.map(row => (row.join('')));
+	canvas.innerHTML = renderedMap.join('\n');
 }
