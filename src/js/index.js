@@ -2,6 +2,7 @@ import levels from './levels.js';
 
 let currentScreen;
 let currentMenu = 'main';
+let currentLevel = 1;
 
 document.body.addEventListener('keydown', menuHandler);
 
@@ -81,7 +82,7 @@ function openScreen(data) {
 
 
 // Game
-let map = levels[1];
+let map = levels[currentLevel];
 const canvas = document.getElementById('js-sokoban-canvas');
 let playerPos = { x: null, y: null };
 
@@ -92,6 +93,13 @@ const activeChar = '&';
 const wallChar = 'X';
 const targetChar = '.';
 
+
+var reTarget = new RegExp(`\\${targetChar}`, 'g');
+var reActive = new RegExp(`\\${activeChar}`, 'g');
+
+// If some cubes are already active
+let winCount = (map.match(reTarget)||[]).length + (map.match(reActive)||[]).length;
+let score = 0;
 
 let originalMapAr = map.split('\n').map(row => (row.split('')));
 let mapArr = map.split('\n').map(row => (row.split('')));
@@ -129,6 +137,10 @@ function move(e) {
 	playerPos = {...nextPos};
 
 	drawMap();
+
+	if(score === winCount) {
+		console.log('win!')
+	}
 }
 
 function getNextPos(pos, directonKey) {
@@ -157,6 +169,14 @@ function moveItem(char, nextPos, oldPos) {
 	let oldChar = emptyChar;
 	const originalOldChar = originalMapAr[oldPos.y][oldPos.x];
 	let next = mapArr[nextPos.y][nextPos.x];
+
+	if(char === itemChar && next === targetChar) {
+		nextChar = activeChar; // activate the cube
+		score++;
+	} else if(char === activeChar && next !== targetChar) {
+		nextChar = itemChar; // deactivate the cube
+		score--;
+	}
 
 	mapArr[nextPos.y][nextPos.x] = nextChar;
 
