@@ -2,5 +2,27 @@ extends extends/_layout
 
 block content
 	.console
-		.console__screen
+		.console__screen(data-screen="mainmenu")
+			.console__title
+				| Use arrows to choose
+				br
+				| Press Enter to select
+			.menu(data-menu="main")
+				.menu__item(data-action="game") Start game
+				.menu__item(data-action="levels") Choose level
+		.console__screen.hidden(data-screen="levels")
+			.console__title
+				| Use arrows to choose
+				br
+				| Press Enter to select
+			.menu(data-menu="levels")
+				each _, i in Array(60)
+					.menu__item&attributes({"data-action": i})= i
+		.console__screen.hidden(data-screen="game")
+			.console__title
+				| Use arrows to walk
+				br
+				| Press Esc to exit to menu
+			.console__title
+				| Level 1
 			#js-sokoban-canvas.console__canvas

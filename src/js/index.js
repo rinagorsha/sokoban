@@ -1,7 +1,88 @@
-import level1 from './levels.js';
+import levels from './levels.js';
 
+let currentScreen;
+let currentMenu = 'main';
+
+document.body.addEventListener('keydown', menuHandler);
+
+openScreen('mainmenu');
+
+function menuHandler(e) {
+	// Esc
+	if(e.keyCode === 27) {
+		openScreen('mainmenu');
+	}
+	if(currentScreen === 'game') return;
+
+	const menu = document.querySelector(`[data-screen=${currentScreen}]`);
+	const menuItems = menu.querySelectorAll('[data-action]');
+	const menuActiveItem = menu.querySelector('[data-menu-item-active]');
+	let index;
+
+	if(!menuActiveItem) {
+		index = 0;
+	} else {
+		index = Array.prototype.indexOf.call(menuItems, menuActiveItem);
+	}
+
+	switch(e.keyCode) {
+		case 13: // Enter
+			openScreen(menuItems[index].getAttribute('data-action'));
+			break;
+		case 38: // Up
+			index--;
+			if(index < 0) {
+				index = menuItems.length - 1;
+			}
+			break;
+		case 40: // Down
+			index++;
+			if(index > menuItems.length - 1) {
+				index = 0;
+			}
+			break;
+		default:
+			return false;
+	}
+
+	setActiveMenuIndex(index, menu);
+}
+
+function setActiveMenuIndex(index, menu) {
+	const menuItems = menu.querySelectorAll('[data-action]');
+
+	for(let item of menuItems) {
+		item.removeAttribute('data-menu-item-active')
+		item.classList.remove('active');
+	}
+
+	menuItems[index].setAttribute('data-menu-item-active', true);
+	menuItems[index].classList.add('active');
+}
+
+function openScreen(data) {
+	currentScreen = data;
+	const screens = document.querySelectorAll('[data-screen]');
+	let activeScreen;
+	for(let screen of screens) {
+		if(screen.getAttribute('data-screen') == data) {
+			activeScreen = screen;
+			screen.classList.remove('hidden');
+		} else {
+			screen.classList.add('hidden');
+		}
+	}
+	
+	const menu = activeScreen.querySelector('[data-menu]');
+	if(menu) {
+		setActiveMenuIndex(0, menu);
+	}
+}
+
+
+// Game
+let map = levels[1];
 const canvas = document.getElementById('js-sokoban-canvas');
-let map = level1;
 let playerPos = { x: null, y: null };
 
 const emptyChar = ' ';
@@ -30,6 +111,7 @@ drawMap();
 document.body.addEventListener('keydown', move);
 
 function move(e) {
+	if(currentScreen !== 'game') return;
 	let nextPos = getNextPos(playerPos, e.keyCode);
 	if(!nextPos) return;
 
