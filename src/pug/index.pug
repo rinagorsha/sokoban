@@ -1,7 +1,7 @@
 extends extends/_layout
 
 block content
-	.console
+	.console(data-console)
 		.console__screen(data-screen="mainmenu")
 			.console__title
 				| Use arrows to choose
@@ -10,6 +10,8 @@ block content
 			.menu(data-menu="main")
 				.menu__item(data-action="game") Start game
 				.menu__item(data-action="levels") Choose level
+				.menu__item(data-action="theme") Choose theme
+				.menu__item(data-action="info") How to play
 		.console__screen.hidden(data-screen="levels")
 			.console__title
 				| Use arrows to choose
@@ -17,12 +19,38 @@ block content
 				| Press Enter to select
 			.menu(data-menu="levels")
 				each _, i in Array(60)
-					.menu__item&attributes({"data-action": i})= i
+					.menu__item&attributes({"data-action": i + 1})= i + 1
+		.console__screen.hidden(data-screen="theme")
+			.console__title
+				| Use arrows to choose
+				br
+				| Press Enter to select
+			.menu(data-menu="theme")
+				.menu__item(data-action="start") Classic
+		.console__screen.hidden(data-screen="info")
+			.console__title
+				| Press Esc to exit to menu
+			div
+				| The player may move horizontally or vertically onto empty squares. The player can also move a box.
+				| Boxes may not be pushed into other boxes, and they cannot be pulled.
+				br
+				| The puzzle is solved when all boxes are at storage locations.
+				br
+				br
+				| @ — player
+				br
+				| * — box
+				br
+				| & — active box
+				br
+				| . — storage locations
+				br
+				| X — wall
 		.console__screen.hidden(data-screen="game")
 			.console__title
 				| Use arrows to walk
 				br
-				| Press Esc to exit to menu
+				| Press Esc to exit to menu and reset your all progress
 			.console__title
 				| Level 1
 			#js-sokoban-canvas.console__canvas

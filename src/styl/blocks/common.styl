@@ -1,11 +1,13 @@
 .console
-	min-height 500px
+	height 485px
+	overflow hidden
 	color #fff
 	font-size 20px
 	line-height 1.3
 	font-family monospace
 	background-color #1e1e1e
 	padding 20px
+	position relative // to calc offsetParent
 	&__title
 		margin-bottom 40px
 	&__canvas
@@ -15,6 +17,7 @@
 .menu
 	&__item
 		padding 4px 0
+		position relative // to calc offsetParent
 		&.active
 			color #1e1e1e
 			background-color #eee

@@ -3,6 +3,7 @@ import levels from './levels.js';
 let currentScreen;
 let currentMenu = 'main';
 let currentLevel = 1;
+const terminal = document.querySelector('[data-console]');
 
 document.body.addEventListener('keydown', menuHandler);
 
@@ -34,13 +35,24 @@ function menuHandler(e) {
 			index--;
 			if(index < 0) {
 				index = menuItems.length - 1;
+				terminal.scrollTop = terminal.scrollHeight;
+			} else if(index === 0) {
+				terminal.scrollTop = 0;
+			}
+			if(menuItems[index].offsetTop < terminal.scrollTop) {
+				terminal.scrollTop -= menuItems[index].offsetHeight;
 			}
 			break;
 		case 40: // Down
 			index++;
+			
 			if(index > menuItems.length - 1) {
 				index = 0;
+				terminal.scrollTop = 0;
+			} else if(menuItems[index].offsetTop + menuItems[index].offsetHeight > terminal.offsetHeight + terminal.scrollTop) {
+				terminal.scrollTop += menuItems[index].offsetHeight;
 			}
+
 			break;
 		default:
 			return false;
@@ -62,6 +74,7 @@ function setActiveMenuIndex(index, menu) {
 }
 
 function openScreen(data) {
+	terminal.scrollTop = 0;
 	currentScreen = data;
 	const screens = document.querySelectorAll('[data-screen]');
 	let activeScreen;
