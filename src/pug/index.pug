@@ -19,7 +19,7 @@ block content
 				| Press Enter to select
 			.menu(data-menu="levels")
 				each _, i in Array(60)
-					.menu__item&attributes({"data-action": i + 1})= i + 1
+					.menu__item&attributes({"data-level": i+1, "data-action": "game"})= i+1
 		.console__screen.hidden(data-screen="theme")
 			.console__title
 				| Use arrows to choose
@@ -39,7 +39,7 @@ block content
 				br
 				| @ — player
 				br
-				| * — box
+				| + — box
 				br
 				| & — active box
 				br
@@ -52,5 +52,5 @@ block content
 				br
 				| Press Esc to exit to menu and reset your all progress
 			.console__title
-				| Level 1
+				| Level #[span#js-sokoban-level 1]
 			#js-sokoban-canvas.console__canvas

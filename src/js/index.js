@@ -1,18 +1,40 @@
 import levels from './levels.js';
 
+const terminal = document.querySelector('[data-console]');
+const canvas = document.getElementById('js-sokoban-canvas');
+const currentLevelEl = document.getElementById('js-sokoban-level');
+
 let currentScreen;
 let currentMenu = 'main';
+
 let currentLevel = 1;
-const terminal = document.querySelector('[data-console]');
+let score = 0;
+let winCount;
+let playerPos = { x: null, y: null };
+let originalMapAr;
+let mapArr;
+
+const emptyChar = ' ';
+const playerChar = '@';
+const itemChar = '+';
+const activeChar = '&';
+const wallChar = 'X';
+const targetChar = '.';
+
+
 
 document.body.addEventListener('keydown', menuHandler);
+document.body.addEventListener('keydown', move);
 
 openScreen('mainmenu');
+setLevel(1);
+
 
 function menuHandler(e) {
 	// Esc
 	if(e.keyCode === 27) {
 		openScreen('mainmenu');
+		setLevel(1);
 	}
 	if(currentScreen === 'game') return;
 
@@ -29,7 +51,10 @@ function menuHandler(e) {
 
 	switch(e.keyCode) {
 		case 13: // Enter
+			let level = menuItems[index].getAttribute('data-level');
+			if(level) setLevel(level);
 			openScreen(menuItems[index].getAttribute('data-action'));
+
 			break;
 		case 38: // Up
 			index--;
@@ -61,6 +86,12 @@ function menuHandler(e) {
 	setActiveMenuIndex(index, menu);
 }
 
+function setLevel(level) {
+	currentLevel = level;
+	currentLevelEl.innerText = currentLevel;
+	initMap(level);
+}
+
 function setActiveMenuIndex(index, menu) {
 	const menuItems = menu.querySelectorAll('[data-action]');
 
@@ -86,7 +117,7 @@ function openScreen(data) {
 			screen.classList.add('hidden');
 		}
 	}
-	
+
 	const menu = activeScreen.querySelector('[data-menu]');
 	if(menu) {
 		setActiveMenuIndex(0, menu);
@@ -95,41 +126,29 @@ function openScreen(data) {
 
 
 // Game
-let map = levels[currentLevel];
-const canvas = document.getElementById('js-sokoban-canvas');
-let playerPos = { x: null, y: null };
+function initMap() {
+	var reTarget = new RegExp(`\\${targetChar}`, 'g');
+	var reActive = new RegExp(`\\${activeChar}`, 'g');
 
-const emptyChar = ' ';
-const playerChar = '@';
-const itemChar = '*';
-const activeChar = '&';
-const wallChar = 'X';
-const targetChar = '.';
+	// If some cubes are already active
+	let map = levels[currentLevel];
+	winCount = (map.match(reTarget)||[]).length + (map.match(reActive)||[]).length;
 
+	originalMapAr = map.split('\n').map(row => (row.split('')));
+	mapArr = map.split('\n').map(row => (row.split('')));
 
-var reTarget = new RegExp(`\\${targetChar}`, 'g');
-var reActive = new RegExp(`\\${activeChar}`, 'g');
-
-// If some cubes are already active
-let winCount = (map.match(reTarget)||[]).length + (map.match(reActive)||[]).length;
-let score = 0;
-
-let originalMapAr = map.split('\n').map(row => (row.split('')));
-let mapArr = map.split('\n').map(row => (row.split('')));
-
-// init playerPos
-for (let posY = 0; posY < mapArr.length; posY++) {
-	const posX = mapArr[posY].indexOf(playerChar);
-	if (posX !== -1) {
-		playerPos.x = posX;
-		playerPos.y = posY;
-		break;
+	// init playerPos
+	for (let posY = 0; posY < mapArr.length; posY++) {
+		const posX = mapArr[posY].indexOf(playerChar);
+		if (posX !== -1) {
+			playerPos.x = posX;
+			playerPos.y = posY;
+			break;
+		}
 	}
+
+	drawMap();
 }
-
-drawMap();
-
-document.body.addEventListener('keydown', move);
 
 function move(e) {
 	if(currentScreen !== 'game') return;
