@@ -58,7 +58,11 @@ block content
 					span.console-stats__item Pushes #[span#js-sokoban-pushes 0]
 					span.console-stats__item Time #[span#js-sokoban-time 00:00:00]
 			#js-sokoban-canvas.console__canvas
-			#js-socoban-win.console__footer
+			#js-socoban-win.console__footer.hidden
 				| Level complete!
 				br
 				| Press Enter for next level
+			#js-socoban-finish.console__footer.hidden
+				| Congratulations!
+				br
+				| You have finished all levels! Press Esc to exit to menu

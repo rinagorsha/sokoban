@@ -4,6 +4,7 @@ const terminal = document.querySelector('[data-console]');
 const canvas = document.getElementById('js-sokoban-canvas');
 const currentLevelEl = document.getElementById('js-sokoban-level');
 const winLevelEl = document.getElementById('js-socoban-win');
+const finishGameEl = document.getElementById('js-socoban-finish');
 
 const MAIN_MENU_SCREEN = 'mainmenu';
 const GAME_SCREEN = 'game';
@@ -149,6 +150,7 @@ function initMap() {
 	}, 1000);
 
 	winLevelEl.classList.add('hidden');
+	finishGameEl.classList.add('hidden');
 
 	const reTarget = new RegExp(`\\${targetChar}`, 'g');
 	const reActive = new RegExp(`\\${activeChar}`, 'g');
@@ -156,6 +158,7 @@ function initMap() {
 	// If some cubes are already active
 	let map = levels[currentLevel];
 	winCount = (map.match(reTarget)||[]).length + (map.match(reActive)||[]).length;
+	score = (map.match(reActive)||[]).length;
 
 	originalMapAr = map.split('\n').map(row => (row.split('')));
 	mapArr = map.split('\n').map(row => (row.split('')));
@@ -199,6 +202,9 @@ function move(e) {
 	if(currentScreen !== GAME_SCREEN) return;
 
 	if(score === winCount) {
+		if(!levels[currentLevel + 1]) {
+			return;
+		}
 		if(e.keyCode === 13) {
 			setLevel(currentLevel + 1)
 		}
@@ -232,8 +238,16 @@ function move(e) {
 	drawMap();
 
 	if(score === winCount) {
-		winLevelEl.classList.remove('hidden');
 		clearInterval(timeInterval);
+
+		// if last level
+		if(!levels[currentLevel + 1]) {
+			finishGameEl.classList.remove('hidden');
+			return;
+		}
+
+		winLevelEl.classList.remove('hidden');
+		
 	}
 }
 
