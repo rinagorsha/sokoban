@@ -8,7 +8,7 @@ block content
 				br
 				| Press Enter to select
 			.menu(data-menu="main")
-				.menu__item(data-action="game") Start game
+				.menu__item(data-action="game", data-level="1") Start game
 				.menu__item(data-action="levels") Choose level
 				.menu__item(data-action="theme") Choose theme
 				.menu__item(data-action="info") How to play
@@ -53,4 +53,12 @@ block content
 				| Press Esc to exit to menu and reset your all progress
 			.console__title
 				| Level #[span#js-sokoban-level 1]
+				.console-stats
+					span.console-stats__item Moves #[span#js-sokoban-moves 0]
+					span.console-stats__item Pushes #[span#js-sokoban-pushes 0]
+					span.console-stats__item Time #[span#js-sokoban-time 00:00:00]
 			#js-sokoban-canvas.console__canvas
+			#js-socoban-win.console__footer
+				| Level complete!
+				br
+				| Press Enter for next level

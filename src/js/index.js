@@ -3,11 +3,24 @@ import levels from './levels.js';
 const terminal = document.querySelector('[data-console]');
 const canvas = document.getElementById('js-sokoban-canvas');
 const currentLevelEl = document.getElementById('js-sokoban-level');
+const winLevelEl = document.getElementById('js-socoban-win');
 
-let currentScreen;
-let currentMenu = 'main';
+const MAIN_MENU_SCREEN = 'mainmenu';
+const GAME_SCREEN = 'game';
 
 let currentLevel = 1;
+let currentScreen;
+
+let scoreMoves = 0;
+const movesEl = document.getElementById('js-sokoban-moves');
+
+let scorePushes = 0;
+const pushesEl = document.getElementById('js-sokoban-pushes');
+
+let scoreTime = 0;
+const timeEl = document.getElementById('js-sokoban-time');
+let timeInterval;
+
 let score = 0;
 let winCount;
 let playerPos = { x: null, y: null };
@@ -22,21 +35,20 @@ const wallChar = 'X';
 const targetChar = '.';
 
 
-
 document.body.addEventListener('keydown', menuHandler);
 document.body.addEventListener('keydown', move);
 
-openScreen('mainmenu');
-setLevel(1);
+openScreen(MAIN_MENU_SCREEN);
 
 
 function menuHandler(e) {
+	
 	// Esc
 	if(e.keyCode === 27) {
-		openScreen('mainmenu');
-		setLevel(1);
+		openScreen(MAIN_MENU_SCREEN);
 	}
-	if(currentScreen === 'game') return;
+
+	if(currentScreen === GAME_SCREEN) return;
 
 	const menu = document.querySelector(`[data-screen=${currentScreen}]`);
 	const menuItems = menu.querySelectorAll('[data-action]');
@@ -52,7 +64,7 @@ function menuHandler(e) {
 	switch(e.keyCode) {
 		case 13: // Enter
 			let level = menuItems[index].getAttribute('data-level');
-			if(level) setLevel(level);
+			if(level) setLevel(+level);
 			openScreen(menuItems[index].getAttribute('data-action'));
 
 			break;
@@ -127,8 +139,19 @@ function openScreen(data) {
 
 // Game
 function initMap() {
-	var reTarget = new RegExp(`\\${targetChar}`, 'g');
-	var reActive = new RegExp(`\\${activeChar}`, 'g');
+	score = 0;
+	setScoreMove(0);
+	setScorePush(0);
+	clearInterval(timeInterval);
+	setTime(0);
+	timeInterval = setInterval(() => {
+		setTime(scoreTime + 1);
+	}, 1000);
+
+	winLevelEl.classList.add('hidden');
+
+	const reTarget = new RegExp(`\\${targetChar}`, 'g');
+	const reActive = new RegExp(`\\${activeChar}`, 'g');
 
 	// If some cubes are already active
 	let map = levels[currentLevel];
@@ -150,8 +173,44 @@ function initMap() {
 	drawMap();
 }
 
+function setTime(time) {
+	scoreTime = time;
+	let hh = Math.floor(scoreTime / 3600);
+	let mm = Math.floor((scoreTime % 3600) / 60);
+	let ss = Math.floor(scoreTime % 60);
+
+	hh = hh.toString().padStart(2, '0');
+	mm = mm.toString().padStart(2, '0');
+	ss = ss.toString().padStart(2, '0');
+	
+	timeEl.innerText = `${hh}:${mm}:${ss}`;
+}
+
+function setScorePush(point) {
+	scorePushes = point;
+	pushesEl.innerText = scorePushes.toString().padStart(4, '0');
+}
+function setScoreMove(point) {
+	scoreMoves = point;
+	movesEl.innerText = scoreMoves.toString().padStart(4, '0');
+}
+
 function move(e) {
-	if(currentScreen !== 'game') return;
+	if(currentScreen !== GAME_SCREEN) return;
+
+	if(score === winCount) {
+		if(e.keyCode === 13) {
+			setLevel(currentLevel + 1)
+		}
+		return;
+	}
+	
+	// debug
+	if(e.keyCode === 32) {
+		setLevel(currentLevel + 1)
+		return;
+	}
+
 	let nextPos = getNextPos(playerPos, e.keyCode);
 	if(!nextPos) return;
 
@@ -163,15 +222,18 @@ function move(e) {
 		if(char2 === wallChar || char2 === itemChar || char2 === activeChar)
 			return false;
 		moveItem(char, nextBlockPos, nextPos);
+		setScorePush(scorePushes + 1);
 	}
 	
 	moveItem(playerChar, nextPos, playerPos);
+	setScoreMove(scoreMoves + 1);
 	playerPos = {...nextPos};
 
 	drawMap();
 
 	if(score === winCount) {
-		console.log('win!')
+		winLevelEl.classList.remove('hidden');
+		clearInterval(timeInterval);
 	}
 }
 
