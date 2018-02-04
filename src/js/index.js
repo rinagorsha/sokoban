@@ -33,6 +33,12 @@ function moveController(e) {
 		return;
 	}
 
+	// Restart
+	if(e.keyCode === 82) {
+		game.setLevel(game.currentLevel);
+		return;
+	}
+
 	game.move(e.keyCode);
 	
 	if(game.score === game.winCount) {
@@ -121,8 +127,9 @@ function setActiveMenuIndex(index, menu) {
 function openScreen(data) {
 	terminal.scrollTop = 0;
 	currentScreen = data;
-	const screens = document.querySelectorAll('[data-screen]');
+
 	let activeScreen;
+	const screens = document.querySelectorAll('[data-screen]');
 	for(let screen of screens) {
 		if(screen.getAttribute('data-screen') == data) {
 			activeScreen = screen;
