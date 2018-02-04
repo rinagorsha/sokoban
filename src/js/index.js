@@ -33,9 +33,21 @@ function moveController(e) {
 		return;
 	}
 
+	// Debug
+	if(e.keyCode === 32) {
+		game.setLevel(game.currentLevel + 1);
+		return;
+	}
+
 	// Restart
 	if(e.keyCode === 82) {
 		game.setLevel(game.currentLevel);
+		return;
+	}
+
+	// Undo
+	if(e.keyCode === 90 && e.ctrlKey === true) {
+		game.undo();
 		return;
 	}
 

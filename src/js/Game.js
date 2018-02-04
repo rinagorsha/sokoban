@@ -24,44 +24,48 @@ export default class Game {
 		this.currentLevelEl.innerText = this.currentLevel;
 
 		this.map = new GameMap(this.levels[level]);
-		if(this.stats) this.stats.stopTime();
+
+		if(this.stats) {
+			this.stats.stopTime();
+		}
 		this.stats = new GameStats();
 
-		this.winCount = this.map.count(this.targetChar) + this.map.count(this.activeChar);
-		this.score = this.map.count(this.activeChar);
+		this.winCount = this.map.countChar(this.targetChar) + this.map.countChar(this.activeChar);
+		this.score = this.map.countChar(this.activeChar);
 
 		this.playerPos = this.map.findChar(this.playerChar);
+		this.stats.logging(this.playerPos.x, this.playerPos.y);
 	}
 
 	move(keyCode) {
-		if(this.score === this.winCount) {
-			return;
-		}
-
-		// debug
-		if(keyCode === 32) {
-			this.stats.stopTime();
-			this.setLevel(this.currentLevel + 1);
-			return;
-		}
+		if(this.score === this.winCount) return;
 
 		let nextPos = this.getNextPos(this.playerPos.x, this.playerPos.y, keyCode);
 		if(!nextPos) return;
 
-		const char = this.map.currentMap[nextPos.y][nextPos.x];
-		if(char === this.wallChar) return false;
-		if(char === this.itemChar || char === this.activeChar) {
-			const nextBlockPos = this.getNextPos(nextPos.x, nextPos.y, keyCode);
-			const char2 = this.map.currentMap[nextBlockPos.y][nextBlockPos.x];
-			if(char2 === this.wallChar || char2 === this.itemChar || char2 === this.activeChar)
-				return false;
-			this.moveItem(char, nextBlockPos.x, nextBlockPos.y, nextPos.x, nextPos.y);
+		const nextChar = this.map.currentMap[nextPos.y][nextPos.x];
+		if(nextChar === this.wallChar) return false;
+
+		let nextBlockPos = {x: null, y: null};
+		if(nextChar === this.itemChar || nextChar === this.activeChar) {
+			nextBlockPos = this.getNextPos(nextPos.x, nextPos.y, keyCode);
+			
+			const blockNextChar = this.map.currentMap[nextBlockPos.y][nextBlockPos.x];
+			if (blockNextChar === this.wallChar ||
+				blockNextChar === this.itemChar ||
+				blockNextChar === this.activeChar) {
+					return false;
+			}
+
+			this.moveItem(nextChar, nextBlockPos.x, nextBlockPos.y, nextPos.x, nextPos.y);
 			this.stats.setScorePush(this.stats.scorePushes + 1);
 		}
 		
 		this.moveItem(this.playerChar, nextPos.x, nextPos.y, this.playerPos.x, this.playerPos.y);
 		this.stats.setScoreMove(this.stats.scoreMoves + 1);
 
+		this.stats.logging(this.playerPos.x, this.playerPos.y, nextBlockPos.x, nextBlockPos.y);
+		
 		this.playerPos = {...nextPos};
 		
 		if(this.score === this.winCount) {
@@ -71,19 +75,44 @@ export default class Game {
 
 	moveItem(char, nextPosX, nextPosY, oldPosX, oldPosY) {
 		let nextChar = char;
-		const originalOldChar = this.map.originalMap[oldPosY][oldPosX];
-		let next = this.map.currentMap[nextPosY][nextPosX];
-
-		if(char === this.itemChar && next === this.targetChar) {
-			nextChar = this.activeChar; // activate the cube
-			this.score++;
-		} else if(char === this.activeChar && next !== this.targetChar) {
-			nextChar = this.itemChar; // deactivate the cube
-			this.score--;
+		if(char !== this.playerChar) {
+			nextChar = this.toggleActiveChar(nextPosX, nextPosY, this.activeChar, this.itemChar);
 		}
 
-		let oldChar = originalOldChar === this.targetChar ? this.targetChar : this.emptyChar;
+		const oldChar = this.toggleActiveChar(oldPosX, oldPosY, this.targetChar, this.emptyChar);
+
 		this.map.drawItem(nextChar, nextPosX, nextPosY, oldChar, oldPosX, oldPosY);
+		this.calcScore();
+	}
+
+	calcScore() {
+		this.score = this.map.countChar(this.activeChar);
+	}
+	
+	undo() {
+		const pos = this.stats.undo();
+		if(!pos) return false;
+
+		const oldChar = this.toggleActiveChar(
+			this.playerPos.x, this.playerPos.y, this.targetChar, this.emptyChar);
+
+		this.map.drawItem(
+			this.playerChar, pos.x, pos.y,
+			oldChar, this.playerPos.x, this.playerPos.y);
+
+		if(pos.moved) {
+			const newCharBlock = this.toggleActiveChar(
+				this.playerPos.x, this.playerPos.y, this.activeChar, this.itemChar);
+			const oldCharBlock = this.toggleActiveChar(
+				pos.moved.x, pos.moved.y, this.targetChar, this.emptyChar);
+
+			this.map.drawItem(
+				newCharBlock, this.playerPos.x, this.playerPos.y,
+				oldCharBlock, pos.moved.x, pos.moved.y);
+		}
+
+		this.playerPos = {x: pos.x, y: pos.y};
+		this.calcScore();
 	}
 
 	getNextPos(posX, posY, directonKey) {
@@ -107,6 +136,14 @@ export default class Game {
 		return nextPos;
 	}
 
+	toggleActiveChar(posX, posY, activeChar, deactiveChar) {
+		const originalChar = this.map.originalMap[posY][posX];
+		if(originalChar === this.targetChar || originalChar === this.activeChar) {
+			return activeChar; // activate an item
+		} else {
+			return deactiveChar; // deactivate an item
+		}
+	}
 }
 
 export class GameStats {
@@ -122,6 +159,9 @@ export class GameStats {
 		
 		this.scoreMoves;
 		this.movesEl = document.getElementById('js-sokoban-moves');
+
+		this.log = [];
+		this.logMaxLength = 200;
 
 		this.init();
 	}
@@ -161,6 +201,30 @@ export class GameStats {
 	stopTime() {
 		clearInterval(this.timeInterval);
 	}
+
+	logging(posX, posY, blockPosX, blockPosY) {
+		let moved = null;
+		if(blockPosX && blockPosY) {
+			moved = {
+				x: blockPosX,
+				y: blockPosY,
+			}
+		}
+		this.log.push({
+			x: posX,
+			y: posY,
+			moved
+		});
+
+		this.log = this.log.slice(-1 * this.logMaxLength);
+	}
+
+	undo() {
+		if(this.log.length <= 1) return false;
+
+		const move = this.log.pop();
+		return move;
+	}
 }
 
 
@@ -187,17 +251,17 @@ export class GameMap {
 	findChar(char) {
 		for (let posY = 0; posY < this.currentMap.length; posY++) {
 			const posX = this.currentMap[posY].indexOf(char);
-			if (posX !== -1) {
+			if(posX !== -1) {
 				return {
 					x: posX,
 					y: posY,
 				}
-				break;
 			}
 		}
+		return null;
 	}
 
-	count(char) {
+	countChar(char) {
 		let charCount = 0;
 		this.currentMap.map(row => {
 			row.map(item => {
