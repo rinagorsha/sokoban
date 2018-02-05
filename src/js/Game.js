@@ -1,11 +1,14 @@
 export default class Game {
-	constructor(levels) {
+	constructor(levels, mapCanvas, movesEl, pushesEl, timeEl) {
 		this.levels = levels;
+		this.mapCanvas = mapCanvas;
+		this.movesEl = movesEl;
+		this.pushesEl = pushesEl;
+		this.timeEl = timeEl;
 
 		this.map;
 		this.stats;
 		this.currentLevel;
-		this.currentLevelEl = document.getElementById('js-sokoban-level');
 
 		this.emptyChar = ' ';
 		this.playerChar = '@';
@@ -21,14 +24,12 @@ export default class Game {
 
 	setLevel(level) {
 		this.currentLevel = level;
-		this.currentLevelEl.innerText = this.currentLevel;
-
-		this.map = new GameMap(this.levels[level]);
+		this.map = new GameMap(this.levels[level], this.mapCanvas);
 
 		if(this.stats) {
 			this.stats.stopTime();
 		}
-		this.stats = new GameStats();
+		this.stats = new GameStats(this.movesEl, this.pushesEl, this.timeEl);
 
 		this.winCount = this.map.countChar(this.targetChar) + this.map.countChar(this.activeChar);
 		this.score = this.map.countChar(this.activeChar);
@@ -147,19 +148,19 @@ export default class Game {
 }
 
 export class GameStats {
-	constructor(initScore, winCount) {
+	constructor(movesEl, pushesEl, timeEl) {
 		this.playerScore;
 		
+		this.scoreMoves;
+		this.movesEl = movesEl;
+
+		this.scorePushes;
+		this.pushesEl = pushesEl;
+
 		this.scoreTime;
 		this.timeInterval = null;
-		this.timeEl = document.getElementById('js-sokoban-time');
+		this.timeEl = timeEl;
 		
-		this.scorePushes;
-		this.pushesEl = document.getElementById('js-sokoban-pushes');
-		
-		this.scoreMoves;
-		this.movesEl = document.getElementById('js-sokoban-moves');
-
 		this.log = [];
 		this.logMaxLength = 200;
 
@@ -229,11 +230,11 @@ export class GameStats {
 
 
 export class GameMap {
-	constructor(map) {
-		this.canvas = document.getElementById('js-sokoban-canvas');
+	constructor(map, canvas) {
+		this.canvas = canvas;
 		this.originalMap = map.split('\n').map(row => (row.split('')));
 		this.currentMap = map.split('\n').map(row => (row.split('')));
-		
+
 		this.drawMap();
 	}
 

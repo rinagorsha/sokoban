@@ -1,17 +1,20 @@
 import levels from './levels.js';
 import Game from './Game';
 
-const terminal = document.querySelector('[data-console]');
-const canvas = document.getElementById('js-sokoban-canvas');
-const winLevelEl = document.getElementById('js-socoban-win');
-const finishGameEl = document.getElementById('js-socoban-finish');
-
 const MAIN_MENU_SCREEN = 'mainmenu';
 const GAME_SCREEN = 'game';
 
 let currentScreen;
+const terminal = document.querySelector('[data-console]');
+const canvas = document.getElementById('js-sokoban-canvas');
+const currentLevelEl = document.getElementById('js-sokoban-level');
+const winLevelEl = document.getElementById('js-socoban-win');
+const finishGameEl = document.getElementById('js-socoban-finish');
+const movesEl = document.getElementById('js-sokoban-moves');
+const pushesEl = document.getElementById('js-sokoban-pushes');
+const timeEl = document.getElementById('js-sokoban-time');
 
-const game = new Game(levels);
+const game = new Game(levels, canvas, movesEl, pushesEl, timeEl);
 
 document.body.addEventListener('keydown', menuHandler);
 document.body.addEventListener('keydown', moveController);
@@ -29,6 +32,7 @@ function moveController(e) {
 			}
 			winLevelEl.classList.add('hidden');
 			game.setLevel(game.currentLevel + 1);
+			currentLevelEl.innerText = game.currentLevel;
 		}
 		return;
 	}
@@ -36,6 +40,7 @@ function moveController(e) {
 	// Debug
 	if(e.keyCode === 32) {
 		game.setLevel(game.currentLevel + 1);
+		currentLevelEl.innerText = game.currentLevel;
 		return;
 	}
 
