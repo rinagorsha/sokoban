@@ -1,10 +1,13 @@
 import levels from './levels.js';
+import themes from './themes.js';
 import Game from './Game';
 
 const MAIN_MENU_SCREEN = 'mainmenu';
 const GAME_SCREEN = 'game';
 
 let currentScreen;
+let currentTheme = null;
+
 const terminal = document.querySelector('[data-console]');
 const canvas = document.getElementById('js-sokoban-canvas');
 const currentLevelEl = document.getElementById('js-sokoban-level');
@@ -13,6 +16,12 @@ const finishGameEl = document.getElementById('js-socoban-finish');
 const movesEl = document.getElementById('js-sokoban-moves');
 const pushesEl = document.getElementById('js-sokoban-pushes');
 const timeEl = document.getElementById('js-sokoban-time');
+
+const playerIcon = document.getElementById('js-icon-player');
+const targetIcon = document.getElementById('js-icon-target');
+const itemIcon = document.getElementById('js-icon-item');
+const activeIcon = document.getElementById('js-icon-active');
+const wallIcon = document.getElementById('js-icon-wall');
 
 const game = new Game(levels, canvas, movesEl, pushesEl, timeEl);
 
@@ -24,7 +33,7 @@ openScreen(MAIN_MENU_SCREEN);
 function moveController(e) {
 	if(currentScreen !== GAME_SCREEN) return;
 
-	if(game.score === game.winCount) {
+	if(game.getScore() === game.winCount) {
 		if(e.keyCode === 13) {
 			// if last level
 			if(!levels[game.currentLevel + 1]) {
@@ -41,6 +50,7 @@ function moveController(e) {
 	if(e.keyCode === 32) {
 		game.setLevel(game.currentLevel + 1);
 		currentLevelEl.innerText = game.currentLevel;
+
 		return;
 	}
 
@@ -58,7 +68,7 @@ function moveController(e) {
 
 	game.move(e.keyCode);
 	
-	if(game.score === game.winCount) {
+	if(game.getScore() === game.winCount) {
 		if(!levels[game.currentLevel + 1]) {
 			finishGameEl.classList.remove('hidden');
 			return;
@@ -80,8 +90,8 @@ function menuHandler(e) {
 	const menu = document.querySelector(`[data-screen=${currentScreen}]`);
 	const menuItems = menu.querySelectorAll('[data-action]');
 	const menuActiveItem = menu.querySelector('[data-menu-item-active]');
-	let index;
 
+	let index;
 	if(!menuActiveItem) {
 		index = 0;
 	} else {
@@ -96,9 +106,16 @@ function menuHandler(e) {
 				finishGameEl.classList.add('hidden');
 				game.setLevel(+level);
 			}
+
+			const theme = menuItems[index].getAttribute('data-theme');
+			if(theme && themes[theme]) {
+				setTheme(theme);
+			}
+
 			openScreen(menuItems[index].getAttribute('data-action'));
 
 			break;
+
 		case 38: // Up
 			index--;
 			if(index < 0) {
@@ -111,6 +128,7 @@ function menuHandler(e) {
 				terminal.scrollTop -= menuItems[index].offsetHeight;
 			}
 			break;
+
 		case 40: // Down
 			index++;
 			
@@ -122,6 +140,7 @@ function menuHandler(e) {
 			}
 
 			break;
+
 		default:
 			return false;
 	}
@@ -160,4 +179,28 @@ function openScreen(data) {
 	if(menu) {
 		setActiveMenuIndex(0, menu);
 	}
+}
+
+function setTheme(theme) {
+	currentTheme = themes[theme];
+	game.setTheme(currentTheme);
+	
+	if(theme !== 'symbols') {
+		canvas.classList.add('icon');
+		[playerIcon, wallIcon, targetIcon, itemIcon, activeIcon].map(item => {
+			item.classList.add('icon');
+		});
+	} else {
+		canvas.classList.remove('icon');
+		[playerIcon, wallIcon, targetIcon, itemIcon, activeIcon].map(item => {
+			item.classList.remove('icon');
+		});
+	}
+
+	if(playerIcon) playerIcon.innerText = currentTheme.player;
+	if(wallIcon) wallIcon.innerText = currentTheme.wall;
+	if(targetIcon) targetIcon.innerText = currentTheme.target;
+	if(itemIcon) itemIcon.innerText = currentTheme.item;
+	if(activeIcon) activeIcon.innerText = currentTheme.active;
+
 }

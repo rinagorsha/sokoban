@@ -26,7 +26,27 @@ block content
 				br
 				| Press Enter to select
 			.menu(data-menu="theme")
-				.menu__item(data-action="start") Classic
+				.menu__item(data-action="mainmenu", data-theme="symbols") Symbols @
+				.menu__item(data-action="mainmenu", data-theme="programer")
+					| Programmer
+					|  
+					span.icon code
+				.menu__item(data-action="mainmenu", data-theme="christmas")
+					| Christmas
+					|  
+					span.icon ac_unit
+				.menu__item(data-action="mainmenu", data-theme="postman")
+					| Postman
+					|  
+					span.icon mail
+				.menu__item(data-action="mainmenu", data-theme="keys")
+					| Кeys
+					|  
+					span.icon vpn_key
+				.menu__item(data-action="mainmenu", data-theme="farm")
+					| Farm
+					|  
+					span.icon local_florist
 		.console__screen.hidden(data-screen="info")
 			.console__title
 				| Press Esc to exit to menu
@@ -37,20 +57,25 @@ block content
 				| The puzzle is solved when all boxes are at storage locations.
 				br
 				br
-				| @ — player
+				| Use Ctrl + Z to undo last move. You can undo 200 moves.
 				br
-				| + — box
+				| Press R to restart level.
 				br
-				| & — active box
 				br
-				| . — storage locations
+				| #[span#js-icon-player @ ] — player
 				br
-				| X — wall
+				| #[span#js-icon-target . ] — target
+				br
+				| #[span#js-icon-item + ] — item
+				br
+				| #[span#js-icon-active & ] — active item
+				br
+				| #[span#js-icon-wall X ] — wall
 		.console__screen.hidden(data-screen="game")
 			.console__title
 				| Use arrows to move. Press R to restart level
 				br
-				| Press Ctrl + Z to undo
+				| Use Ctrl + Z to undo
 				br
 				| Press Esc to exit to menu and reset all your progress
 			.console__title

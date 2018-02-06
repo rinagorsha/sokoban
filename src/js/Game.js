@@ -1,6 +1,15 @@
 export default class Game {
 	constructor(levels, mapCanvas, movesEl, pushesEl, timeEl) {
 		this.levels = levels;
+		this.theme = {
+			player: '@',
+			empty: ' ',
+			wall: 'X',
+			target: '.',
+			item: '+',
+			active: '&',
+		};
+
 		this.mapCanvas = mapCanvas;
 		this.movesEl = movesEl;
 		this.pushesEl = pushesEl;
@@ -10,51 +19,43 @@ export default class Game {
 		this.stats;
 		this.currentLevel;
 
-		this.emptyChar = ' ';
-		this.playerChar = '@';
-		this.itemChar = '+';
-		this.activeChar = '&';
-		this.wallChar = 'X';
-		this.targetChar = '.';
-
 		this.playerPos = {x: null, y: null};
 		this.winCount;
-		this.score;
+		this.score = 0;
 	}
 
 	setLevel(level) {
 		this.currentLevel = level;
-		this.map = new GameMap(this.levels[level], this.mapCanvas);
+		this.map = new GameMap(
+			this.levels[level], this.mapCanvas, this.theme);
 
 		if(this.stats) {
 			this.stats.stopTime();
 		}
 		this.stats = new GameStats(this.movesEl, this.pushesEl, this.timeEl);
 
-		this.winCount = this.map.countChar(this.targetChar) + this.map.countChar(this.activeChar);
-		this.score = this.map.countChar(this.activeChar);
-
-		this.playerPos = this.map.findChar(this.playerChar);
+		this.winCount = this.map.countChar(this.theme.target) + this.getScore();
+		this.playerPos = this.map.findChar(this.theme.player);
 		this.stats.logging(this.playerPos.x, this.playerPos.y);
 	}
 
 	move(keyCode) {
-		if(this.score === this.winCount) return;
+		if(this.getScore() === this.winCount) return;
 
 		let nextPos = this.getNextPos(this.playerPos.x, this.playerPos.y, keyCode);
 		if(!nextPos) return;
 
 		const nextChar = this.map.currentMap[nextPos.y][nextPos.x];
-		if(nextChar === this.wallChar) return false;
+		if(nextChar === this.theme.wall) return false;
 
 		let nextBlockPos = {x: null, y: null};
-		if(nextChar === this.itemChar || nextChar === this.activeChar) {
+		if(nextChar === this.theme.item || nextChar === this.theme.active) {
 			nextBlockPos = this.getNextPos(nextPos.x, nextPos.y, keyCode);
 			
 			const blockNextChar = this.map.currentMap[nextBlockPos.y][nextBlockPos.x];
-			if (blockNextChar === this.wallChar ||
-				blockNextChar === this.itemChar ||
-				blockNextChar === this.activeChar) {
+			if (blockNextChar === this.theme.wall ||
+				blockNextChar === this.theme.item ||
+				blockNextChar === this.theme.active) {
 					return false;
 			}
 
@@ -62,32 +63,33 @@ export default class Game {
 			this.stats.setScorePush(this.stats.scorePushes + 1);
 		}
 		
-		this.moveItem(this.playerChar, nextPos.x, nextPos.y, this.playerPos.x, this.playerPos.y);
+		this.moveItem(this.theme.player, nextPos.x, nextPos.y, this.playerPos.x, this.playerPos.y);
 		this.stats.setScoreMove(this.stats.scoreMoves + 1);
 
 		this.stats.logging(this.playerPos.x, this.playerPos.y, nextBlockPos.x, nextBlockPos.y);
 		
 		this.playerPos = {...nextPos};
 		
-		if(this.score === this.winCount) {
+		if(this.getScore() === this.winCount) {
 			this.stats.stopTime();
 		}
 	}
 
 	moveItem(char, nextPosX, nextPosY, oldPosX, oldPosY) {
 		let nextChar = char;
-		if(char !== this.playerChar) {
-			nextChar = this.toggleActiveChar(nextPosX, nextPosY, this.activeChar, this.itemChar);
+		if(char !== this.theme.player) {
+			nextChar = this.toggleActiveChar(
+				nextPosX, nextPosY, this.theme.active, this.theme.item);
 		}
 
-		const oldChar = this.toggleActiveChar(oldPosX, oldPosY, this.targetChar, this.emptyChar);
+		const oldChar = this.toggleActiveChar(
+			oldPosX, oldPosY, this.theme.target, this.theme.empty);
 
 		this.map.drawItem(nextChar, nextPosX, nextPosY, oldChar, oldPosX, oldPosY);
-		this.calcScore();
 	}
 
-	calcScore() {
-		this.score = this.map.countChar(this.activeChar);
+	getScore() {
+		return this.map.countChar(this.theme.active);
 	}
 	
 	undo() {
@@ -95,17 +97,17 @@ export default class Game {
 		if(!pos) return false;
 
 		const oldChar = this.toggleActiveChar(
-			this.playerPos.x, this.playerPos.y, this.targetChar, this.emptyChar);
+			this.playerPos.x, this.playerPos.y, this.theme.target, this.theme.empty);
 
 		this.map.drawItem(
-			this.playerChar, pos.x, pos.y,
+			this.theme.player, pos.x, pos.y,
 			oldChar, this.playerPos.x, this.playerPos.y);
 
 		if(pos.moved) {
 			const newCharBlock = this.toggleActiveChar(
-				this.playerPos.x, this.playerPos.y, this.activeChar, this.itemChar);
+				this.playerPos.x, this.playerPos.y, this.theme.active, this.theme.item);
 			const oldCharBlock = this.toggleActiveChar(
-				pos.moved.x, pos.moved.y, this.targetChar, this.emptyChar);
+				pos.moved.x, pos.moved.y, this.theme.target, this.theme.empty);
 
 			this.map.drawItem(
 				newCharBlock, this.playerPos.x, this.playerPos.y,
@@ -113,7 +115,10 @@ export default class Game {
 		}
 
 		this.playerPos = {x: pos.x, y: pos.y};
-		this.calcScore();
+	}
+
+	setTheme(theme) {
+		this.theme = Object.assign({}, this.theme, theme);
 	}
 
 	getNextPos(posX, posY, directonKey) {
@@ -139,13 +144,14 @@ export default class Game {
 
 	toggleActiveChar(posX, posY, activeChar, deactiveChar) {
 		const originalChar = this.map.originalMap[posY][posX];
-		if(originalChar === this.targetChar || originalChar === this.activeChar) {
+		if(originalChar === this.theme.target || originalChar === this.theme.active) {
 			return activeChar; // activate an item
 		} else {
 			return deactiveChar; // deactivate an item
 		}
 	}
 }
+
 
 export class GameStats {
 	constructor(movesEl, pushesEl, timeEl) {
@@ -176,14 +182,14 @@ export class GameStats {
 		}, 1000);
 	}
 
-	setScorePush(point) {
-		this.scorePushes = point;
-		this.pushesEl.innerText = this.scorePushes.toString().padStart(4, '0');
-	}
-
 	setScoreMove(point) {
 		this.scoreMoves = point;
 		this.movesEl.innerText = this.scoreMoves.toString().padStart(4, '0');
+	}
+
+	setScorePush(point) {
+		this.scorePushes = point;
+		this.pushesEl.innerText = this.scorePushes.toString().padStart(4, '0');
 	}
 
 	setTime(time) {
@@ -221,21 +227,42 @@ export class GameStats {
 	}
 
 	undo() {
-		if(this.log.length <= 1) return false;
-
-		const move = this.log.pop();
-		return move;
+		if(this.log.length <= 1) return null;
+		return this.log.pop();
 	}
 }
 
 
 export class GameMap {
-	constructor(map, canvas) {
+	constructor(map, canvas, theme) {
 		this.canvas = canvas;
-		this.originalMap = map.split('\n').map(row => (row.split('')));
-		this.currentMap = map.split('\n').map(row => (row.split('')));
+		this.standardLevelEncoding = {
+			'@': 'player',
+			' ': 'empty',
+			'X': 'wall',
+			'.': 'target',
+			'+': 'item',
+			'&': 'active',
+		};
 
+		this.parseMap(map, theme);
 		this.drawMap();
+	}
+
+	parseMap(mapString, theme) {
+		let map = mapString.split('\n').map(row => (row.split('')));
+
+		if(theme && Object.keys(theme).length !== 0 && theme.constructor === Object) {
+			map = map.map(row => {
+				return row.map(char => {
+					const key = this.standardLevelEncoding[char];
+					return theme[key];
+				});
+			});
+		}
+
+		this.originalMap = map.map(row => [...row]);
+		this.currentMap = map.map(row => [...row]);
 	}
 
 	drawMap() {

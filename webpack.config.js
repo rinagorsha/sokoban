@@ -7,7 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer-stylus');
 
-const context = path.resolve(__dirname, './');
+const context = path.resolve(__dirname);
 module.exports = {
 	context: context,
 
@@ -69,16 +69,24 @@ module.exports = {
 				],
 
 			}, {
-				test: /\.(png|jpg|gif|svg|ico|eot|ttf|woff|woff2)$/,
-				use: ExtractTextPlugin.extract({
-					use: [{
-						loader: 'file-loader',
-						options: {
-							name: '[path][name].[ext]'
-						}
-					}]
-				})
-			},
+				test: /\.(png|jpg|gif|svg|ico)$/,
+				use: {
+					loader: 'file-loader',
+					options: {
+						name: '[path][name].[ext]'
+					}
+				}
+			}, {
+				test: /\.(eot|ttf|woff|woff2)$/,
+				use: [{
+					loader: 'file-loader',
+					options: {
+						name: '[path][name].[ext]',
+						publicPath: '/images/',
+						aoutputPath: '/images/'
+					}
+				}]
+			}
 		]
 	},
 
@@ -89,6 +97,10 @@ module.exports = {
 			verbose: true,
 			dry: false,
 		}),
+		new CopyWebpackPlugin([{
+			from: path.resolve(__dirname, './src/fonts/'),
+			to: path.join('./fonts/'),
+		}])
 	],
 
 	devServer: {
