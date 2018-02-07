@@ -2,26 +2,24 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CleanPlugin = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer-stylus');
+const CleanPlugin = require('clean-webpack-plugin');
 
-const context = path.resolve(__dirname);
+const context = path.resolve(__dirname, 'src');
+
 module.exports = {
 	context: context,
 
 	entry: [
-		'./src/js/index.js',
-		'./src/styl/main.styl',
-		'./src/pug/index.pug'
+		'babel-polyfill',
+		'./js/index.js',
+		'./styl/main.styl',
+		'./pug/index.pug',
 	],
 	output: {
-		path: path.resolve(context, 'dist'),
+		path: path.resolve(context, '../dist'),
 		filename: path.join('js', 'all.js')
 	},
-
-	devtool: 'source-map',
 
 	module: {
 		rules: [
@@ -31,10 +29,12 @@ module.exports = {
 				use: [{
 					loader: 'babel-loader',
 					options: {
-						presets: ['es2015', 'stage-0']
+						presets: ['stage-0']
 					}
 				}]
-			}, {
+			},
+			
+			{
 				test: /\.(pug|jade)$/,
 				exclude: [/node_modules/],
 				use: [
@@ -51,24 +51,39 @@ module.exports = {
 						}
 					}
 				]
-			}, {
+			},
+			
+			{
 				test: /\.(styl|stylus)$/,
+				exclude: /node_modules/,
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
-							name: path.join('css', 'all.css'),
+							name: 'css/all.css',
 						},
-					}, {
+					},
+					{
+						loader: 'extract-loader',
+						options: {
+							publicPath: '../',
+						},
+					},
+					{
+						loader: 'css-loader',
+					},
+					
+					{
 						loader: 'stylus-loader',
 						options: {
-							compress: false,
+							compress: true,
 							use: [autoprefixer({browsers: ['> 1%', 'ie > 9', 'iOS > 6'], hideWarnings: true})],
 						},
 					},
 				],
+			},
 
-			}, {
+			{
 				test: /\.(png|jpg|gif|svg|ico)$/,
 				use: {
 					loader: 'file-loader',
@@ -76,43 +91,34 @@ module.exports = {
 						name: '[path][name].[ext]'
 					}
 				}
-			}, {
+			},
+			
+			{
 				test: /\.(eot|ttf|woff|woff2)$/,
-				use: [{
+				exclude: /node_modules/,
+				use: {
 					loader: 'file-loader',
 					options: {
 						name: '[path][name].[ext]',
-						publicPath: '/images/',
-						aoutputPath: '/images/'
-					}
-				}]
-			}
+						context: 'src/',
+					},
+				},
+			},
 		]
 	},
 
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new CleanPlugin(['dist/'], {
-			root: context,
+			root: path.join(context, '../'),
 			verbose: true,
 			dry: false,
 		}),
-		new CopyWebpackPlugin([{
-			from: path.resolve(__dirname, './src/fonts/'),
-			to: path.join('./fonts/'),
-		}])
-	],
-
-	devServer: {
-		contentBase: path.resolve(__dirname, 'dist'),
-		publicPath: '/',
-		host: '0.0.0.0',
-		port: 3000,
-		disableHostCheck: true,
-		useLocalIp: true,
-		compress: true,
-		open: true,
-		openPage: "index.html",
-		stats: 'errors-only'
-	}
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				drop_console: true,
+				warnings: false,
+			},
+		}),
+	]
 };

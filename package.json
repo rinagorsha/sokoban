@@ -10,8 +10,8 @@
   },
   "main": "webpack.config.js",
   "scripts": {
-    "serve": "./node_modules/.bin/webpack-dev-server --config=webpack.config.js --color",
-    "compile": "./node_modules/.bin/webpack --config=webpack.config.js --color"
+    "serve": "webpack-dev-server --config=webpack.config.dev.js --color",
+    "compile": "webpack --config=webpack.config.prod.js --color"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -19,7 +19,8 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^6.4.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.18",
     "copy-webpack-plugin": "^4.3.1",
