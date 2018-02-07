@@ -186,12 +186,12 @@ function setTheme(theme) {
 	game.setTheme(currentTheme);
 	
 	if(theme !== 'symbols') {
-		canvas.classList.add('icon');
+		canvas.classList.add('iconed');
 		[playerIcon, wallIcon, targetIcon, itemIcon, activeIcon].map(item => {
 			item.classList.add('icon');
 		});
 	} else {
-		canvas.classList.remove('icon');
+		canvas.classList.remove('iconed');
 		[playerIcon, wallIcon, targetIcon, itemIcon, activeIcon].map(item => {
 			item.classList.remove('icon');
 		});
