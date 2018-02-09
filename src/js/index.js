@@ -1,5 +1,5 @@
-import levels from './levels.js';
-import themes from './themes.js';
+import levels from './levels';
+import themes from './themes';
 import Game from './Game';
 
 const MAIN_MENU_SCREEN = 'mainmenu';
@@ -31,176 +31,174 @@ document.body.addEventListener('keydown', moveController);
 openScreen(MAIN_MENU_SCREEN);
 
 function moveController(e) {
-	if(currentScreen !== GAME_SCREEN) return;
+    if (currentScreen !== GAME_SCREEN) return;
 
-	if(game.getScore() === game.winCount) {
-		if(e.keyCode === 13) {
-			// if last level
-			if(!levels[game.currentLevel + 1]) {
-				return;
-			}
-			winLevelEl.classList.add('hidden');
-			game.setLevel(game.currentLevel + 1);
-			currentLevelEl.innerText = game.currentLevel;
-		}
-		return;
-	}
+    if (game.getScore() === game.winCount) {
+        if (e.keyCode === 13) {
+            // if last level
+            if (!levels[game.currentLevel + 1]) {
+                return;
+            }
+            winLevelEl.classList.add('hidden');
+            game.setLevel(game.currentLevel + 1);
+            currentLevelEl.innerText = game.currentLevel;
+        }
+        return;
+    }
 
-	// Debug
-	if(e.keyCode === 32) {
-		game.setLevel(game.currentLevel + 1);
-		currentLevelEl.innerText = game.currentLevel;
+    // Debug
+    if (e.keyCode === 32) {
+        game.setLevel(game.currentLevel + 1);
+        currentLevelEl.innerText = game.currentLevel;
 
-		return;
-	}
+        return;
+    }
 
-	// Restart
-	if(e.keyCode === 82) {
-		game.setLevel(game.currentLevel);
-		return;
-	}
+    // Restart
+    if (e.keyCode === 82) {
+        game.setLevel(game.currentLevel);
+        return;
+    }
 
-	// Undo
-	if(e.keyCode === 90 && e.ctrlKey === true) {
-		game.undo();
-		return;
-	}
+    // Undo
+    if (e.keyCode === 90 && e.ctrlKey === true) {
+        game.undo();
+        return;
+    }
 
-	game.move(e.keyCode);
-	
-	if(game.getScore() === game.winCount) {
-		if(!levels[game.currentLevel + 1]) {
-			finishGameEl.classList.remove('hidden');
-			return;
-		}
-		winLevelEl.classList.remove('hidden');
-	}
+    game.move(e.keyCode);
 
+    if (game.getScore() === game.winCount) {
+        if (!levels[game.currentLevel + 1]) {
+            finishGameEl.classList.remove('hidden');
+            return;
+        }
+        winLevelEl.classList.remove('hidden');
+    }
 }
 
 function menuHandler(e) {
-	
-	// Esc
-	if(e.keyCode === 27) {
-		openScreen(MAIN_MENU_SCREEN);
-	}
+    // Esc
+    if (e.keyCode === 27) {
+        openScreen(MAIN_MENU_SCREEN);
+    }
 
-	if(currentScreen === GAME_SCREEN) return;
+    if (currentScreen === GAME_SCREEN) return;
 
-	const menu = document.querySelector(`[data-screen=${currentScreen}]`);
-	const menuItems = menu.querySelectorAll('[data-action]');
-	const menuActiveItem = menu.querySelector('[data-menu-item-active]');
+    const menu = document.querySelector(`[data-screen=${currentScreen}]`);
+    const menuItems = menu.querySelectorAll('[data-action]');
+    const menuActiveItem = menu.querySelector('[data-menu-item-active]');
 
-	let index;
-	if(!menuActiveItem) {
-		index = 0;
-	} else {
-		index = Array.prototype.indexOf.call(menuItems, menuActiveItem);
-	}
+    let index;
+    if (!menuActiveItem) {
+        index = 0;
+    } else {
+        index = Array.prototype.indexOf.call(menuItems, menuActiveItem);
+    }
 
-	switch(e.keyCode) {
-		case 13: // Enter
-			const level = menuItems[index].getAttribute('data-level');
-			if(level) {
-				winLevelEl.classList.add('hidden');
-				finishGameEl.classList.add('hidden');
-				game.setLevel(+level);
-			}
+    switch (e.keyCode) {
+        case 13: { // Enter
+            const level = menuItems[index].getAttribute('data-level');
+            if (level) {
+                winLevelEl.classList.add('hidden');
+                finishGameEl.classList.add('hidden');
+                game.setLevel(+level);
+            }
 
-			const theme = menuItems[index].getAttribute('data-theme');
-			if(theme && themes[theme]) {
-				setTheme(theme);
-			}
+            const theme = menuItems[index].getAttribute('data-theme');
+            if (theme && themes[theme]) {
+                setTheme(theme);
+            }
 
-			openScreen(menuItems[index].getAttribute('data-action'));
+            openScreen(menuItems[index].getAttribute('data-action'));
 
-			break;
+            break;
+        }
 
-		case 38: // Up
-			index--;
-			if(index < 0) {
-				index = menuItems.length - 1;
-				terminal.scrollTop = terminal.scrollHeight;
-			} else if(index === 0) {
-				terminal.scrollTop = 0;
-			}
-			if(menuItems[index].offsetTop < terminal.scrollTop) {
-				terminal.scrollTop -= menuItems[index].offsetHeight;
-			}
-			break;
+        case 38: { // Up
+            index--;
+            if (index < 0) {
+                index = menuItems.length - 1;
+                terminal.scrollTop = terminal.scrollHeight;
+            } else if (index === 0) {
+                terminal.scrollTop = 0;
+            }
+            if (menuItems[index].offsetTop < terminal.scrollTop) {
+                terminal.scrollTop -= menuItems[index].offsetHeight;
+            }
+            break;
+        }
 
-		case 40: // Down
-			index++;
-			
-			if(index > menuItems.length - 1) {
-				index = 0;
-				terminal.scrollTop = 0;
-			} else if(menuItems[index].offsetTop + menuItems[index].offsetHeight > terminal.offsetHeight + terminal.scrollTop) {
-				terminal.scrollTop += menuItems[index].offsetHeight;
-			}
+        case 40: { // Down
+            index++;
 
-			break;
+            if (index > menuItems.length - 1) {
+                index = 0;
+                terminal.scrollTop = 0;
+            } else if (menuItems[index].offsetTop + menuItems[index].offsetHeight >
+                terminal.offsetHeight + terminal.scrollTop) {
+                terminal.scrollTop += menuItems[index].offsetHeight;
+            }
 
-		default:
-			return false;
-	}
+            break;
+        }
 
-	setActiveMenuIndex(index, menu);
+        default:
+            break;
+    }
+
+    setActiveMenuIndex(index, menu);
 }
 
 function setActiveMenuIndex(index, menu) {
-	const menuItems = menu.querySelectorAll('[data-action]');
+    const menuItems = menu.querySelectorAll('[data-action]');
 
-	for(let item of menuItems) {
-		item.removeAttribute('data-menu-item-active')
-		item.classList.remove('active');
-	}
+    for (const item of menuItems) {
+        item.removeAttribute('data-menu-item-active');
+        item.classList.remove('active');
+    }
 
-	menuItems[index].setAttribute('data-menu-item-active', true);
-	menuItems[index].classList.add('active');
+    menuItems[index].setAttribute('data-menu-item-active', true);
+    menuItems[index].classList.add('active');
 }
 
 function openScreen(data) {
-	terminal.scrollTop = 0;
-	currentScreen = data;
+    terminal.scrollTop = 0;
+    currentScreen = data;
 
-	let activeScreen;
-	const screens = document.querySelectorAll('[data-screen]');
-	for(let screen of screens) {
-		if(screen.getAttribute('data-screen') == data) {
-			activeScreen = screen;
-			screen.classList.remove('hidden');
-		} else {
-			screen.classList.add('hidden');
-		}
-	}
+    let activeScreen;
+    const screens = document.querySelectorAll('[data-screen]');
+    for (const screen of screens) {
+        if (screen.getAttribute('data-screen') === data) {
+            activeScreen = screen;
+            screen.classList.remove('hidden');
+        } else {
+            screen.classList.add('hidden');
+        }
+    }
 
-	const menu = activeScreen.querySelector('[data-menu]');
-	if(menu) {
-		setActiveMenuIndex(0, menu);
-	}
+    const menu = activeScreen.querySelector('[data-menu]');
+    if (menu) {
+        setActiveMenuIndex(0, menu);
+    }
 }
 
 function setTheme(theme) {
-	currentTheme = themes[theme];
-	game.setTheme(currentTheme);
-	
-	if(theme !== 'symbols') {
-		canvas.classList.add('iconed');
-		[playerIcon, wallIcon, targetIcon, itemIcon, activeIcon].map(item => {
-			item.classList.add('icon');
-		});
-	} else {
-		canvas.classList.remove('iconed');
-		[playerIcon, wallIcon, targetIcon, itemIcon, activeIcon].map(item => {
-			item.classList.remove('icon');
-		});
-	}
+    const icons = [playerIcon, wallIcon, targetIcon, itemIcon, activeIcon];
+    currentTheme = themes[theme];
+    game.setTheme(currentTheme);
 
-	if(playerIcon) playerIcon.innerText = currentTheme.player;
-	if(wallIcon) wallIcon.innerText = currentTheme.wall;
-	if(targetIcon) targetIcon.innerText = currentTheme.target;
-	if(itemIcon) itemIcon.innerText = currentTheme.item;
-	if(activeIcon) activeIcon.innerText = currentTheme.active;
+    if (theme !== 'symbols') {
+        canvas.classList.add('iconed');
+        icons.map(item => item.classList.add('icon'));
+    } else {
+        canvas.classList.remove('iconed');
+        icons.map(item => item.classList.remove('icon'));
+    }
 
+    if (playerIcon) playerIcon.innerText = currentTheme.player;
+    if (wallIcon) wallIcon.innerText = currentTheme.wall;
+    if (targetIcon) targetIcon.innerText = currentTheme.target;
+    if (itemIcon) itemIcon.innerText = currentTheme.item;
+    if (activeIcon) activeIcon.innerText = currentTheme.active;
 }

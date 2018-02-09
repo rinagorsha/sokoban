@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 export default {
 1:
 `    XXXXX             
@@ -1047,4 +1048,4 @@ X ++                  &.XX
 X  XXXXXXXXXXXXXXXXXX  ..X
 XXXX                XXXXXX`,
 
-}
+};
