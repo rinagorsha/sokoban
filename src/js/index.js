@@ -1,12 +1,12 @@
 import levels from './levels';
 import themes from './themes';
-import Game from './Game';
+import Game, { GameStats, GameMap } from './Game';
 
 const MAIN_MENU_SCREEN = 'mainmenu';
 const GAME_SCREEN = 'game';
 
 let currentScreen;
-let currentTheme = null;
+let currentTheme = 'symbols';
 
 const terminal = document.querySelector('[data-console]');
 const canvas = document.getElementById('js-sokoban-canvas');
@@ -23,12 +23,16 @@ const itemIcon = document.getElementById('js-icon-item');
 const activeIcon = document.getElementById('js-icon-active');
 const wallIcon = document.getElementById('js-icon-wall');
 
-const game = new Game(levels, canvas, movesEl, pushesEl, timeEl);
+const stats = new GameStats(movesEl, pushesEl, timeEl);
+const map = new GameMap(canvas);
+const game = new Game(levels, map, stats);
+
 
 document.body.addEventListener('keydown', menuHandler);
 document.body.addEventListener('keydown', moveController);
 
 openScreen(MAIN_MENU_SCREEN);
+
 
 function moveController(e) {
     if (currentScreen !== GAME_SCREEN) return;
@@ -88,6 +92,8 @@ function menuHandler(e) {
     const menu = document.querySelector(`[data-screen=${currentScreen}]`);
     const menuItems = menu.querySelectorAll('[data-action]');
     const menuActiveItem = menu.querySelector('[data-menu-item-active]');
+
+    if (!menuItems.length) return;
 
     let index;
     if (!menuActiveItem) {

@@ -1,5 +1,5 @@
 export default class Game {
-    constructor(levels, mapCanvas, movesEl, pushesEl, timeEl) {
+    constructor(levels, mapInstance, statsInstance) {
         this.levels = levels;
         this.theme = {
             player: '@',
@@ -10,13 +10,8 @@ export default class Game {
             active: '&',
         };
 
-        this.mapCanvas = mapCanvas;
-        this.movesEl = movesEl;
-        this.pushesEl = pushesEl;
-        this.timeEl = timeEl;
-
-        this.map = null;
-        this.stats = null;
+        this.map = mapInstance;
+        this.stats = statsInstance;
         this.currentLevel = 1;
 
         this.playerPos = { x: null, y: null };
@@ -26,15 +21,9 @@ export default class Game {
 
     setLevel(level) {
         this.currentLevel = level;
-        this.map = new GameMap(
-            this.levels[level], this.mapCanvas, this.theme,
-        );
+        this.map.render(this.levels[level], this.theme);
 
-        if (this.stats) {
-            this.stats.stopTime();
-        }
-        this.stats = new GameStats(this.movesEl, this.pushesEl, this.timeEl);
-
+        this.stats.stopTime();
         this.winCount = this.map.countChar(this.theme.target) + this.getScore();
         this.playerPos = this.map.findChar(this.theme.player);
         this.stats.logging(this.playerPos.x, this.playerPos.y);
@@ -164,7 +153,6 @@ export default class Game {
     }
 }
 
-
 export class GameStats {
     constructor(movesEl, pushesEl, timeEl) {
         this.playerScore = 0;
@@ -244,9 +232,8 @@ export class GameStats {
     }
 }
 
-
 export class GameMap {
-    constructor(map, canvas, theme) {
+    constructor(canvas) {
         this.canvas = canvas;
         this.standardLevelEncoding = {
             '@': 'player',
@@ -256,13 +243,15 @@ export class GameMap {
             '+': 'item',
             '&': 'active',
         };
+    }
 
+    render(map, theme) {
         this.parseMap(map, theme);
         this.drawMap();
     }
 
     parseMap(mapString, theme) {
-        let map = mapString.split('\n').map(row => (row.split('')));
+        let map = mapString.split('\n').map(row => row.split(''));
 
         if (theme && Object.keys(theme).length !== 0 && theme.constructor === Object) {
             map = map.map(row => (
