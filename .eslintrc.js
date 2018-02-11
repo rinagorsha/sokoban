@@ -4,7 +4,7 @@ module.exports = {
         browser: true,
     },
     rules: {
-        indent: ["error", 4, { "SwitchCase": 1 } ],
+        indent: ["error", 2, { "SwitchCase": 1 } ],
         "no-use-before-define": ["error", { "functions": false }],
         "no-plusplus": 0,
         "function-paren-newline": ["error", "consistent"],

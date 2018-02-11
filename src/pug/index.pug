@@ -1,95 +1,95 @@
 extends extends/_layout
 
 block content
-	.console(data-console)
-		.console__screen(data-screen="mainmenu")
-			.console__title
-				| Use arrows to choose
-				br
-				| Press Enter to select
-			.menu(data-menu="main")
-				.menu__item(data-action="game", data-level="1") Start game
-				.menu__item(data-action="levels") Choose level
-				.menu__item(data-action="theme") Choose theme
-				.menu__item(data-action="info") How to play
-		.console__screen.hidden(data-screen="levels")
-			.console__title
-				| Use arrows to choose
-				br
-				| Press Enter to select
-			.menu(data-menu="levels")
-				each _, i in Array(60)
-					.menu__item&attributes({"data-level": i+1, "data-action": "game"})= i+1
-		.console__screen.hidden(data-screen="theme")
-			.console__title
-				| Use arrows to choose
-				br
-				| Press Enter to select
-			.menu(data-menu="theme")
-				.menu__item(data-action="mainmenu", data-theme="symbols") Symbols @
-				.menu__item(data-action="mainmenu", data-theme="programer")
-					| Programmer
-					|  
-					span.icon code
-				.menu__item(data-action="mainmenu", data-theme="christmas")
-					| Christmas
-					|  
-					span.icon ac_unit
-				.menu__item(data-action="mainmenu", data-theme="postman")
-					| Postman
-					|  
-					span.icon mail
-				.menu__item(data-action="mainmenu", data-theme="keys")
-					| Кeys
-					|  
-					span.icon vpn_key
-				.menu__item(data-action="mainmenu", data-theme="farm")
-					| Farm
-					|  
-					span.icon local_florist
-		.console__screen.hidden(data-screen="info")
-			.console__title
-				| Press Esc to exit to menu
-			div
-				| The player may move horizontally or vertically onto empty squares. The player can also move a box.
-				| Boxes may not be pushed into other boxes, and they cannot be pulled.
-				br
-				| The puzzle is solved when all boxes are at storage locations.
-				br
-				br
-				| Use Ctrl + Z to undo last move. You can undo 200 moves.
-				br
-				| Press R to restart level.
-				br
-				br
-				| #[span#js-icon-player @ ] — player
-				br
-				| #[span#js-icon-target . ] — target
-				br
-				| #[span#js-icon-item + ] — item
-				br
-				| #[span#js-icon-active & ] — active item
-				br
-				| #[span#js-icon-wall X ] — wall
-		.console__screen.hidden(data-screen="game")
-			.console__title
-				| Use arrows to move. Press R to restart level
-				br
-				| Use Ctrl + Z to undo
-				br
-				| Press Esc to exit to menu and reset all your progress
-			.console__title
-				| Level #[span#js-sokoban-level 1]
-				.console-stats
-					span.console-stats__item Moves #[span#js-sokoban-moves 0]
-					span.console-stats__item Pushes #[span#js-sokoban-pushes 0]
-					span.console-stats__item Time #[span#js-sokoban-time 00:00:00]
-			#js-sokoban-canvas.console__canvas
-			#js-socoban-win.console__footer.hidden
-				| Level complete!
-				br
-				| Press Enter for next level
-			#js-socoban-finish.console__footer.hidden
-				| Congratulations!
-				br
-				| You have finished all levels! Press Esc to exit to menu
+  .console(data-console)
+    .console__screen(data-screen="mainmenu")
+      .console__title
+        | Use arrows to choose
+        br
+        | Press Enter to select
+      .menu(data-menu="main")
+        .menu__item(data-action="game", data-level="1") Start game
+        .menu__item(data-action="levels") Choose level
+        .menu__item(data-action="theme") Choose theme
+        .menu__item(data-action="info") How to play
+    .console__screen.hidden(data-screen="levels")
+      .console__title
+        | Use arrows to choose
+        br
+        | Press Enter to select
+      .menu(data-menu="levels")
+        each _, i in Array(60)
+          .menu__item&attributes({"data-level": i+1, "data-action": "game"})= i+1
+    .console__screen.hidden(data-screen="theme")
+      .console__title
+        | Use arrows to choose
+        br
+        | Press Enter to select
+      .menu(data-menu="theme")
+        .menu__item(data-action="mainmenu", data-theme="symbols") Symbols @
+        .menu__item(data-action="mainmenu", data-theme="programer")
+          | Programmer
+          |  
+          span.icon &#x0055;
+        .menu__item(data-action="mainmenu", data-theme="christmas")
+          | Christmas
+          |  
+          span.icon &#x0047;
+        .menu__item(data-action="mainmenu", data-theme="postman")
+          | Postman
+          |  
+          span.icon &#x0052;
+        .menu__item(data-action="mainmenu", data-theme="farm")
+          | Farm
+          |  
+          span.icon &#x004e;
+        .menu__item(data-action="mainmenu", data-theme="ufo")
+          | UFO
+          |  
+          span.icon &#x004f;
+    .console__screen.hidden(data-screen="info")
+      .console__title
+        | Press Esc to exit to menu
+      div
+        | The player may move horizontally or vertically onto empty squares. The player can also move a box.
+        | Boxes may not be pushed into other boxes, and they cannot be pulled.
+        br
+        | The puzzle is solved when all boxes are at storage locations.
+        br
+        br
+        | Use Ctrl + Z to undo last move. You can undo 1000 moves.
+        br
+        | Press R to restart level.
+        br
+        br
+        | #[span.icon#js-icon-player @ ] — player
+        br
+        | #[span.icon#js-icon-target . ] — target
+        br
+        | #[span.icon#js-icon-item + ] — item
+        br
+        | #[span.icon#js-icon-active & ] — active item
+        br
+        | #[span.icon#js-icon-wall X ] — wall
+    .console__screen.hidden(data-screen="game")
+      .console__title
+        | Use arrows to move. Press R to restart level
+        br
+        | Use Ctrl + Z to undo
+        br
+        | Press Esc to exit to menu and reset all your progress
+      .console__title
+        | Level #[span#js-sokoban-level 1]
+        .console-stats
+          span.console-stats__item Moves #[span#js-sokoban-moves 0]
+          span.console-stats__item Pushes #[span#js-sokoban-pushes 0]
+          span.console-stats__item Time #[span#js-sokoban-time 00:00:00]
+      #js-sokoban-canvas.console__canvas
+      #js-socoban-win.console__footer.hidden
+        | Level complete!
+        br
+        | Press Enter for next level
+      #js-socoban-finish.console__footer.hidden
+        | Congratulations!
+        br
+        | You have finished all levels! Press Esc to exit to menu

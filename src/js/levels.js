@@ -1,7 +1,8 @@
 /* eslint-disable indent */
 export default {
 1:
-`    XXXXX             
+`
+    XXXXX             
     X   X             
     X+  X             
   XXX  +XXX           
@@ -11,10 +12,12 @@ X   X XXX XXXXXXX  ..X
 X +  +             ..X
 XXXXX XXXX X@XXXX  ..X
     X      XXX  XXXXXX
-    XXXXXXXX          `,
+    XXXXXXXX          
+`,
 
 2:
-`XXXXXXXXXXXX  
+`
+XXXXXXXXXXXX  
 X..  X     XXX
 X..  X +  +  X
 X..  X+XXXX  X
@@ -26,7 +29,8 @@ XXXXXX XX+ + X
   XXXXXXXXXXXX`,
 
 3:
-`        XXXXXXXX 
+`
+        XXXXXXXX 
         X     @X 
         X +X+ XX 
         X +  +X  
@@ -35,10 +39,12 @@ XXXXXXXXX + X XXX
 X....  XX +  +  X
 XX...    +  +   X
 X....  XXXXXXXXXX
-XXXXXXXX         `,
+XXXXXXXX         
+`,
 
 4:
-`              XXXXXXXX
+`
+              XXXXXXXX
               X  ....X
    XXXXXXXXXXXX  ....X
    X    X  + +   ....X
@@ -50,10 +56,12 @@ X   X XXXXXXXXX
 X    +  XX            
 X ++X++ @X            
 X   X   XX            
-XXXXXXXXX             `,
+XXXXXXXXX             
+`,
 
 5:
-`        XXXXX    
+`
+        XXXXX    
         X   XXXXX
         X X+XX  X
         X     + X
@@ -65,10 +73,12 @@ XXXXXXXXX  +  XX
         X + +  X 
         XXX XX X 
           X    X 
-          XXXXXX `,
+          XXXXXX 
+`,
 
 6:
-`XXXXXX  XXX 
+`
+XXXXXX  XXX 
 X..  X XX@XX
 X..  XXX   X
 X..     ++ X
@@ -81,7 +91,8 @@ XXXX + X+  X
    XXXXXXXXX`,
 
 7:
-`       XXXXX 
+`
+       XXXXX 
  XXXXXXX   XX
 XX X @XX ++ X
 X    +      X
@@ -92,10 +103,12 @@ X + + + ...X
 X    XXX...X 
 X ++ X X...X 
 X  XXX XXXXX 
-XXXX         `,
+XXXX         
+`,
 
 8:
-`  XXXX          
+`
+  XXXX          
   X  XXXXXXXXXXX
   X    +   + + X
   X +X + X  +  X
@@ -111,10 +124,12 @@ XX  +    + + + X
   X......X      
   X......X      
   X......X      
-  XXXXXXXX      `,
+  XXXXXXXX      
+`,
 
 9:
-`          XXXXXXX
+`
+          XXXXXXX
           X  ...X
       XXXXX  ...X
       X      ...X
@@ -131,10 +146,12 @@ XXXXXX ++ + XXXXX
         X  X     
         X  X     
         X  X     
-        XXXX     `,
+        XXXX     
+`,
 
 10:
-`              XXXX   
+`
+              XXXX   
          XXXXXX  X   
          X       X   
          X  XXXX XXX 
@@ -153,10 +170,12 @@ XXX   X  +    X.....X
     X X       X X    
     X XXXXXXXXX X    
     X           X    
-    XXXXXXXXXXXXX    `,
+    XXXXXXXXXXXXX    
+`,
 
 11:
-`          XXXX     
+`
+          XXXX     
      XXXX X  X     
    XXX  XXX+ X     
   XX   @  +  X     
@@ -170,10 +189,12 @@ X.    XXX  XXXXXXXX
 X.. ..X XXXX       
 X...X.X            
 X.....X            
-XXXXXXX            `,
+XXXXXXX            
+`,
 
 12:
-`  XXXXXXXXX  
+`
+  XXXXXXXXX  
   X&.&X&.&X  
   X.&.&.&.X  
   X&.&.&.&X  
@@ -188,10 +209,12 @@ XX + + + + XX
  X+ + + + +X 
  X   +@+   X 
  X  XXXXX  X 
- XXXX   XXXX `,
+ XXXX   XXXX 
+`,
 
 13:
-`    XXXXXXXXX       
+`
+    XXXXXXXXX       
   XXX   XX  XXXXX   
 XXX      X  X   XXXX
 X  ++ X+ X  X  ... X
@@ -203,10 +226,12 @@ X + XX   X  X+X.X. X
 XX ++  +   +  +... X
  X+  XXXXXX    XX  X
  X   X    XXXXXXXXXX
- XXXXX              `,
+ XXXXX              
+`,
 
 14:
-`XXXXXXXXXXXXXXXX 
+`
+XXXXXXXXXXXXXXXX 
 X              X 
 X X XXXXXX     X 
 X X  + + + +X  X 
@@ -218,10 +243,12 @@ X     X XX XX...X
 XXXXX   XX XX...X
     XXXXX     XXX
         X     X  
-        XXXXXXX  `,
+        XXXXXXX  
+`,
 
 15:
-`       XXXX      
+`
+       XXXX      
     XXXX  X      
    XX  X  X      
    X  + + X      
@@ -237,10 +264,12 @@ X   XXX XXXXXXX
 X ++  X  X       
 X  X     X       
 XXXXXX   X       
-     XXXXX       `,
+     XXXXX       
+`,
 
 16:
-`XXXXX         
+`
+XXXXX         
 X   XX        
 X    X  XXXX  
 X +  XXXX  X  
@@ -254,10 +283,12 @@ XXX@ X+    XX
   X ++ X.....X
   X  XXXXXXXXX
   X  X        
-  XXXX        `,
+  XXXX        
+`,
 
 17:
-`       XXXXXXX    
+`
+       XXXXXXX    
  XXXXXXX     X    
  X     X +@+ X    
  X++ X   XXXXXXXXX
@@ -272,10 +303,12 @@ XXXXX     +   X X
     XXX XXX   X X 
       X     X   X 
       XXXXXXXX  X 
-             XXXX `,
+             XXXX 
+`,
 
 18:
-`      XXXXXXXXXXXX    
+`
+      XXXXXXXXXXXX    
       X  .  XX   X    
       X X.     @ X    
  XXXXXX XX...X XXXX   
@@ -287,10 +320,12 @@ XXXX+XXX+X +  X   X XX
  X   ++ X X + X +XX X 
  X                  X 
  XXXXXXXXXXXXXXXXX  X 
-                 XXXX `,
+                 XXXX 
+`,
 
 19:
-`        XXXXXX              
+`
+        XXXXXX              
         X   @XXXX           
       XXXXX +   X           
       X   XX    XXXX        
@@ -309,10 +344,12 @@ X ++++    XXXXXX+XX   X.XX.X
 XX    XX              X....X
  XX  XXXXXXXXXXXXXXX   ....X
   X  X             XXXXX  XX
-  XXXX                 XXXX `,
+  XXXX                 XXXX 
+`,
 
 20:
-`       XXXXXXXXXXXX 
+`
+       XXXXXXXXXXXX 
        X..........X 
      XXX.X.X.X.X..X 
      X   .........X 
@@ -331,10 +368,12 @@ XXXX  XX   X    X  X
      X X    X + XX  
      X XXXXXXXX X   
      X          X   
-     XXXXXXXXXXXX   `,
+     XXXXXXXXXXXX   
+`,
 
 21:
-`   XXXXXXXXXX   
+`
+   XXXXXXXXXX   
    X..  X   X   
    X..      X   
    X..  X  XXXX 
@@ -347,10 +386,12 @@ X X +  +  X +  X
 X @+  +   X   XX
 XXXX XX XXXXXXX 
    X    X       
-   XXXXXX       `,
+   XXXXXX       
+`,
 
 22:
-`            XXXX      
+`
+            XXXX      
  XXXXXXXXXXXX  XXXXX  
  X    X  X  +  X   XX 
  X + + +  + X + +   X 
@@ -369,10 +410,12 @@ XX X     + + + +   XXX
  X         X XXXXXXX X
  XXXXXXX X+          X
        X   XXXXXXXXXXX
-       XXXXX          `,
+       XXXXX          
+`,
 
 23:
-`       XXXXXXX           
+`
+       XXXXXXX           
        X  X  XXXX        
        X +X+ X  XX       
 XXXXXXXX  X  X   XXXXXXXX
@@ -385,10 +428,12 @@ XXXXXXXX  X++X+  X
        X +X  X  +X       
        X  X  X   X       
        XXXX  XXXXX       
-          XXXX           `,
+          XXXX           
+`,
 
 24:
-`   XXXXXXXXXX        
+`
+   XXXXXXXXXX        
    X........XXXX     
    X.X.X....X  X     
    X........++ X     
@@ -406,10 +451,12 @@ XXXXX    X XX X XX XX
     X@X  +X+++  X   X
     XXX  +      XXXXX
       XX  X  X  X    
-       XXXXXXXXXX    `,
+       XXXXXXXXXX    
+`,
 
 25:
-`               XXXX    
+`
+               XXXX    
           XXXXXX  XXXXX
     XXXXXXX       X   X
     X      + + XX X X X
@@ -425,10 +472,12 @@ X X    +     X   X ...X
 X X   XX XX     XXX...X
 X XXXXXX+XXXXXX  XXXXXX
 X        X    X  X     
-XXXXXXXXXX    XXXX     `,
+XXXXXXXXXX    XXXX     
+`,
 
 26:
-`XXXXXXXXX      
+`
+XXXXXXXXX      
 X       X      
 X       XXXX   
 XX XXXX X  X   
@@ -442,10 +491,12 @@ XXXX  +++ +X  X
  X   X X XX...X
  XXXXX +  X...X
      XX   XXXXX
-      XXXXX    `,
+      XXXXX    
+`,
 
 27:
-` XXXXXXXXXXXXXXXXX     
+`
+ XXXXXXXXXXXXXXXXX     
  X...   X    X   XXX   
 XX.....  +XX X X + X   
 X......X  +  X  +  X   
@@ -457,10 +508,12 @@ XXXXXXXXX +  + X X  XXX
  X + ++     +   +     X
  X +    +XX+ XXXXXXXX X
  XXXXXXX  @ XX      XXX
-       XXXXXX          `,
+       XXXXXX          
+`,
 
 28:
-`     XXXXXXX   
+`
+     XXXXXXX   
      X@ X  X   
      X +   X   
     XXX XX X   
@@ -476,10 +529,12 @@ X  X+XX..XX   X
 XXX .X....XXXXX
   X .......XX  
   X....   ..X  
-  XXXXXXXXXXX  `,
+  XXXXXXXXXXX  
+`,
 
 29:
-`                XXXXX   
+`
+                XXXXX   
        XXXXXX XXX   XXXX
    XXXXX    XXX + +  + X
 XXXX  XX X+ +    + X   X
@@ -489,10 +544,12 @@ X....    X XXX    X    X
 X....    X XX  +  XXX+ X
 X..XXXXXX  +  X  XXXX XX
 XXXX    X   XXX    @  X 
-        XXXXXXXXXXXXXXX `,
+        XXXXXXXXXXXXXXX 
+`,
 
 30:
-` XXXXX        
+`
+ XXXXX        
  X   XXXXXXX  
  X + XXX   X  
  X +    ++ X  
@@ -511,10 +568,12 @@ X.....X ++X  X
 X.. ..X +  + X
 X.....+   X  X
 XX  XXXXXXXXXX
- XXXX         `,
+ XXXX         
+`,
 
 31:
-` XXXXXXX       
+`
+ XXXXXXX       
  X  X  XXXXX   
 XX  X  X...XXX 
 X  +X  X...  X 
@@ -525,10 +584,12 @@ XX+       + + X
 XX  X  ++ X   X
  XXXXXX  XX++@X
       X      XX
-      XXXXXXXX `,
+      XXXXXXXX 
+`,
 
 32:
-`  XXXX            
+`
+  XXXX            
   X  XXXXXXXXX    
  XX  XX @X   X    
  X  +X + +   XXXX 
@@ -543,10 +604,12 @@ XX  XXX  XXX+ X
    X....XXXX      
    X...XX         
    X...X          
-   XXXXX          `,
+   XXXXX          
+`,
 
 33:
-`      XXXX   
+`
+      XXXX   
   XXXXX  X   
  XX     +X   
 XX +  XX XXX 
@@ -560,10 +623,12 @@ XXXX XX   +X
       X   XXX
       X+ XXX 
       X  X   
-      XXXX   `,
+      XXXX   
+`,
 
 34:
-`XXXXXXXXXXXX
+`
+XXXXXXXXXXXX
 XX     XX  X
 XX   +   + X
 XXXX XX ++ X
@@ -580,7 +645,8 @@ XXX..XX    X
 XXXXXXXXXXXX`,
 
 35:
-`XXXXXXXXXXXX  XXXXXX
+`
+XXXXXXXXXXXX  XXXXXX
 X   X    X@XXXX....X
 X   ++X       .....X
 X   X XXX   XX ....X
@@ -595,10 +661,12 @@ X  + XX XX X X
 X ++     ++  X      
 XX XX XXX +  X      
  X    X X    X      
- XXXXXX XXXXXX      `,
+ XXXXXX XXXXXX      
+`,
 
 36:
-`     XXXX         
+`
+     XXXX         
    XXX  XX        
 XXXX  +  X        
 X   + +  XXXX     
@@ -616,10 +684,12 @@ XX+X+ XXXX+XXXX..X
  X     ++++ X     
  X + XXX    X     
  X   X XXXXXX     
- XXXXX            `,
+ XXXXX            
+`,
 
 37:
-`XXXXXXXXXXX          
+`
+XXXXXXXXXXX          
 X......   XXXXXXXXX  
 X......   X  XX   X  
 X..XXX +    +     X  
@@ -633,10 +703,12 @@ XXX    X   X+  X +XXX
    X    +  +  X      
    XX   X X   X      
     XXXXX@XXXXX      
-        XXX          `,
+        XXX          
+`,
 
 38:
-` XXXXXXXXX    
+`
+ XXXXXXXXX    
  X....   XX   
  X.X.X  + XX  
 XX....X X @XX 
@@ -650,10 +722,12 @@ XX XXX  +    X
  X  + X  +  X 
  XXX+ +   XXX 
    X  XXXXX   
-   XXXX       `,
+   XXXX       
+`,
 
 39:
-`              XXX      
+`
+              XXX      
              XX.XXX    
              X....X    
  XXXXXXXXXXXXX....X    
@@ -670,10 +744,12 @@ X  + X+ + +XXX  X
 X +++X +   X XXXX      
 X    X  ++ X           
 XXXXXX   XXX           
-     XXXXX             `,
+     XXXXX             
+`,
 
 40:
-`      XXXX 
+`
+      XXXX 
 XXXXXXX @X 
 X     +  X 
 X   +XX +X 
@@ -683,10 +759,12 @@ XX+X...X X
  X   X X+ X
  X+  +    X
  X  XXXXXXX
- XXXX      `,
+ XXXX      
+`,
 
 41:
-`           XXXXX    
+`
+           XXXXX    
           XX   XX   
          XX     X   
         XX  ++  X   
@@ -700,10 +778,12 @@ X.X XXXXXXX. X+ +XXX
 X........... X   + X
 XXXXXXXXXXXXXX  +  X
              XX  XXX
-              XXXX  `,
+              XXXX  
+`,
 
 42:
-` XXXXXXXX    
+`
+ XXXXXXXX    
  X@XX   XXXX 
  X +   +   X 
  X  + + +++X 
@@ -720,10 +800,12 @@ XX X....X++X
  X         X 
  XXXX XX+XXX 
     X    X   
-    XXXXXX   `,
+    XXXXXX   
+`,
 
 43:
-`    XXXXXXXXXXXX 
+`
+    XXXXXXXXXXXX 
     X          XX
     X  X X++ +  X
     X+ X+X  XX @X
@@ -738,10 +820,12 @@ X....X  XXXXXXXX
 X.X... XX        
 X....   X        
 X....   X        
-XXXXXXXXX        `,
+XXXXXXXXX        
+`,
 
 44:
-`      XXXXXX             
+`
+      XXXXXX             
    XXXXX   X             
    X   X X XXXXX         
    X + X  +    XXXXXX    
@@ -759,10 +843,12 @@ XX XXX      XXXX X+X X  X
              X..XXXXX  X 
              X..       X 
              XX  XXX  XX 
-              XXXXXXXXX  `,
+              XXXXXXXXX  
+`,
 
 45:
-`        XXXXXXX    
+`
+        XXXXXXX    
     XXXXX  X  XXXX 
     X   X   +    X 
  XXXX X++ XX XX  X 
@@ -775,7 +861,8 @@ XXXXXXXX XX   X   X
           XXXXXXXXX`,
 
 46:
-`    XXXXXXXXX  XXXX   
+`
+    XXXXXXXXX  XXXX   
     X   XX  XXXX  X   
     X   +   X  +  X   
     X  X XX X     XXXX
@@ -791,10 +878,12 @@ XXXXXX X  X+   XXX...X
  X   X  X XXX  XXX    
  X   +  X+ @XXXX      
  XXXXX  X   X         
-     XXXXXXXX         `,
+     XXXXXXXX         
+`,
 
 47:
-` XXXXX             
+`
+ XXXXX             
  X   X             
  X X XXXXXX        
  X      +@XXXXXX   
@@ -811,7 +900,8 @@ XXXXXX  XXX  ...  X
           XXXXXXXXX`,
 
 48:
-`       XXXX     
+`
+       XXXX     
        X  XX    
        X   XX   
        X ++ XX  
@@ -828,7 +918,8 @@ XXX  XXXX XXX X
        XXXXXXXXX`,
 
 49:
-`      XXXXXXXXXXXX 
+`
+      XXXXXXXXXXXX 
      XX..    X   X 
     XX..& +    + X 
    XX..&.X X X+ XX 
@@ -843,10 +934,12 @@ XXX++   X X X X X
   X+   X   X   X  X
   X  XXX   XX     X
   X  X      X    XX
-  XXXX      XXXXXX `,
+  XXXX      XXXXXX 
+`,
 
 50:
-`     XXXXXXXXXXXXX   
+`
+     XXXXXXXXXXXXX   
      X    XXX    X   
      X     + +  XXXX 
    XXXX X   + +    X 
@@ -861,10 +954,12 @@ XXXXX  X  XX  X +X  X
   X.......X ++ X+ X X
   X.......X         X
   X.......XXXXXXX  XX
-  XXXXXXXXX     XXXX `,
+  XXXXXXXXX     XXXX 
+`,
 
 51:
-`XXXXX XXXX      
+`
+XXXXX XXXX      
 X...X X  XXXX   
 X...XXX  +  X   
 X....XX +  +XXX 
@@ -877,10 +972,12 @@ X  + @ +    +  X
 X   X + ++ + XXX
 X  XXXXXX  XXX  
 X XX    XXXX    
-XXX             `,
+XXX             
+`,
 
 52:
-` XXXX                
+`
+ XXXX                
 XX  XXXXX            
 X       X XXXXX      
 X +XXX  XXX   X      
@@ -893,10 +990,12 @@ X..XX  +   X   XXXXXX
 X.&XX+XX   XXXXX     
 X..  + XXXXX         
 X  X @ X             
-XXXXXXXX             `,
+XXXXXXXX             
+`,
 
 53:
-`   XXXXXXXXXX
+`
+   XXXXXXXXXX
    X  XXX   X
    X +   +  X
    X  XXXX+XX
@@ -917,7 +1016,8 @@ X  XX   X   X
 XXXXXXXXXXXXX`,
 
 54:
-` XXXXXXXXXXXXXXXXXXXXX 
+`
+ XXXXXXXXXXXXXXXXXXXXX 
  X   XX  X   X   X   X 
  X +     +   +   +   XX
 XXXXX X  X   XXX XX+XXX
@@ -939,7 +1039,8 @@ X          X   X      X
 XXXXXXXXXXXXXXXXXXXXXXX`,
 
 55:
-` XXXXXXXXXXXXXXXXXXXXX
+`
+ XXXXXXXXXXXXXXXXXXXXX
 XX                   X
 X    + X      XX X   X
 X  XXXXXX XXX  X+XX XX
@@ -953,10 +1054,12 @@ X  +X   X XXXXXX +XXX
 XX  X XXX++  +   + X  
 XX     X +  + XX   X  
  XXXXX   X   XXXXXXX  
-     XXXXXXXXX        `,
+     XXXXXXXXX        
+`,
 
 56:
-`XXXXXXXXXX    
+`
+XXXXXXXXXX    
 X        XXXX 
 X XXXXXX X  XX
 X X + + +  + X
@@ -971,10 +1074,12 @@ XXX+  ++X  XXX
   X         X 
   X.......XXX 
   X.......X   
-  XXXXXXXXX   `,
+  XXXXXXXXX   
+`,
 
 57:
-`         XXXX     
+`
+         XXXX     
  XXXXXXXXX  XX    
 XX  +      + XXXXX
 X   XX XX   XX...X
@@ -984,10 +1089,12 @@ X  +X XXX++   ...X
 X +  ++  + XX....X
 XXX+       XXXXXXX
   X  XXXXXXX      
-  XXXX            `,
+  XXXX            
+`,
 
 58:
-`              XXXXXX       
+`
+              XXXXXX       
           XXXXX    X       
           X  XX X  XXXXX   
           X   &.X..X   X   
@@ -1006,10 +1113,12 @@ X      + X X  XXXX  X+X   X
 XXXX X  +X X              X
    X  +  X XX  XX  XXXXXXXX
    XX  XXX  XXXXXXXX       
-    XXXX                   `,
+    XXXX                   
+`,
 
 59:
-`         XXXX                
+`
+         XXXX                
          X  X                
          X  XXXXXXXX         
    XXXXXXX  X      X         
@@ -1028,10 +1137,12 @@ XX X  +  X X +XX  XX....&.XXX
 XX XX  +  X + X  X....&.XXX  
 X    + XXXX   X ....&.XXX    
 X   X  X  X  X  ..&.XXX      
-XXXXXXXX  XXXXXXXXXXX        `,
+XXXXXXXX  XXXXXXXXXXX        
+`,
 
 60:
-`        XXXXX             
+`
+        XXXXX             
         X   XXXX          
         X +    XXXX  XXXX 
         X   X +X  XXXX  X 
@@ -1046,6 +1157,7 @@ X..X      XX   X     X.X
 X..XXXXXXX  XXX XXXXXX.XX 
 X ++                  &.XX
 X  XXXXXXXXXXXXXXXXXX  ..X
-XXXX                XXXXXX`,
+XXXX                XXXXXX
+`,
 
 };
